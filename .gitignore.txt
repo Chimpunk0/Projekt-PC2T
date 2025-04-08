@@ -1,0 +1,39 @@
+# Eclipse specific files
+.classpath
+.project
+.settings/
+
+# Java build output
+bin/
+build/
+target/
+out/
+
+
+# IntelliJ (in case someone opens it there too)
+*.iml
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Test reports
+/test-output/
+
+# Coverage reports
+coverage/
+jacoco.exec
+
+# Temporary files
+*.class
+*.swp
+*.swo
