@@ -5,16 +5,15 @@ public abstract class Student {
 	private int ID;
 	private String meno;
 	private String priezvisko;
-	private String odbor;
-	
+	protected String odbor;
+	private static int posldedneID = 0;
 	private Integer[] datumNarodenia;
 
-	public Student(int iD, String meno, String priezvisko, Integer[] datumNarodenia, String odbor) {
-		ID = iD;
+	public Student(int iD, String meno, String priezvisko, Integer[] datumNarodenia) {
+		ID = ++posldedneID;
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.datumNarodenia = datumNarodenia;
-		this.odbor = odbor;
 	}
 
 	public int getID() {
@@ -48,15 +47,18 @@ public abstract class Student {
 	public void setDatumNarodenia(Integer[] datumNarodenia) {
 		this.datumNarodenia = datumNarodenia;
 	}
-
+	
 	public String getOdbor() {
 		return odbor;
 	}
 
-	public void setOdbor(String odbor) {
-		this.odbor = odbor;
+	public String vypisDatumNarodenia() {
+        if (datumNarodenia != null && datumNarodenia.length == 3) {
+            return (datumNarodenia[0] + "." + datumNarodenia[1] + "." + datumNarodenia[2]);
+        } else {
+            return ("Dátum narodenia nie je zadaný správne.") ;
+        }
+	
 	}
-	
-	
 
 }
