@@ -1,44 +1,48 @@
 package projekt_BPC_pC2T;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Databaza {
 	
-	private Map <Integer, Student> studenti = new HashMap<>();
-	Scanner skener = new Scanner(System.in);
+	private Map <Integer, Student> prvkyDatabazy;
 	
-	public void pridatStudenta() {
-		
-		System.out.print("zadajte meno a priezvisko: ");
-		String meno = skener.next();
-		String priezvisko = skener.next();
-		System.out.println("zadajte datum narodenie studenta");
-		int[] datumNarodenia = new int[3];
-		for (int i = 0; i < 3; i++)
-		{
-			datumNarodenia[i] = skener.nextInt();
-		}
-		System.out.print("zadajte odbor, do ktoreho chcete studenta priradit: ");
-		String odbor = skener.next();
+	public Databaza() {
+		prvkyDatabazy = new HashMap<Integer, Student>();
+	}
+	Scanner skener = new Scanner(System.in);
+	int id = 1;
+	
+	public boolean pridatStudenta(String meno, String priezvisko, LocalDate datum, String odbor) {
 		if (odbor.equals(typyOdborov.IBE) ) {
 			
-
+			if (prvkyDatabazy.put(id, new BPC_IBE(meno, priezvisko, datum, typyOdborov.IBE)) == null) {
+				return true;
+			}
+			else return false;
 		}
-		else if (odbor.equals("TLI")) {
-			
+		else if (odbor.equals(typyOdborov.TLI)) {
+			if (prvkyDatabazy.put(id, new BPC_TLI(meno, priezvisko, datum, typyOdborov.TLI)) == null) {
+				return true;
+			}
+			else return false;
 		}
+		else return false;
 	}
 	
-	public void  najstStudenta(int ID) {
-		Student hladanyStudent = studenti.get(ID); 
+	public Student  najstStudenta(int id) {
+		return prvkyDatabazy.get(id); 
 	
-		System.out.println("/-----------------------------------------------\\");
-		System.out.println( "Meno a priezvisko: " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko());
-		System.out.println("odbor: " + hladanyStudent.getOdbor());
-		System.out.println("dátum narodenia: " + hladanyStudent.vypisDatumNarodenia());
-		System.out.println("\\-----------------------------------------------/");
+		
 	}
 
+	public boolean vymazatStudenta(int id) {
+		if (prvkyDatabazy.get(id) == null) {
+			return false;
+		}
+		prvkyDatabazy.remove(id);
+		return true;
+	}
 }

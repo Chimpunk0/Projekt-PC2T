@@ -1,32 +1,36 @@
 package projekt_BPC_pC2T;
 
-public enum Odbor{
-	IBE, TLI
-}
+import java.time.LocalDate;
 
 public abstract class Student {
 	
-	private int ID;
+	protected int id;
 	private String meno;
-	private String priezvisko;
+	protected String priezvisko;
 	protected final typyOdborov odbor;
-	private static int posldedneID = 0;
-	private Integer[] datumNarodenia;
+	private int posledneId = 0;
+	private LocalDate datumNarodenia;
 
-	public Student(int iD, String meno, String priezvisko, Integer[] datumNarodenia, typyOdborov odbor) {
-		this.ID = ++posldedneID;
+	public Student(String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
+		this.id = ++posledneId;
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.datumNarodenia = datumNarodenia;
 		this.odbor = odbor;
 	}
+	
+	public abstract String vykonajSchopnost();
 
 	public int getID() {
-		return ID;
+		return id;
 	}
 
 	public void setID(int iD) {
-		ID = iD;
+		id = iD;
+	}
+	
+	public int getposledneId() {
+		return posledneId;
 	}
 
 	public String getMeno() {
@@ -45,11 +49,11 @@ public abstract class Student {
 		this.priezvisko = priezvisko;
 	}
 
-	public Integer[] getDatumNarodenia() {
+	public LocalDate getDatumNarodenia() {
 		return datumNarodenia;
 	}
 
-	public void setDatumNarodenia(Integer[] datumNarodenia) {
+	public void setDatumNarodenia(LocalDate datumNarodenia) {
 		this.datumNarodenia = datumNarodenia;
 	}
 	
@@ -57,13 +61,6 @@ public abstract class Student {
 		return odbor;
 	}
 
-	public String vypisDatumNarodenia() {
-        if (datumNarodenia != null && datumNarodenia.length == 3) {
-            return (datumNarodenia[0] + "." + datumNarodenia[1] + "." + datumNarodenia[2]);
-        } else {
-            return ("Dátum narodenia nie je zadaný správne.") ;
-        }
 	
-	}
 
 }

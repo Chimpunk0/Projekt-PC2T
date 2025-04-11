@@ -1,20 +1,24 @@
 package projekt_BPC_pC2T;
 
+import java.time.LocalDate;
+
 public class BPC_IBE extends Student {
 	
-	public BPC_IBE(int iD, String meno, String priezvisko, Integer[] datumNarodenia, typyOdborov odbor) {
+	public BPC_IBE(String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
 
-		super(iD, meno, priezvisko, datumNarodenia, typyOdborov.IBE);
+		super(meno, priezvisko, datumNarodenia, typyOdborov.IBE);
 		
 		
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	public static int hash(String meno, String priezvisko) {
-		String menoAPriezvisko = meno + priezvisko;
-		
-		return menoAPriezvisko.hashCode();
+	@Override
+	public String vykonajSchopnost() {
+	    String menoAPriezvisko = getMeno() + getPriezvisko();
+	    return String.valueOf(menoAPriezvisko.hashCode());
 	}
+
+
+	
 	
 }

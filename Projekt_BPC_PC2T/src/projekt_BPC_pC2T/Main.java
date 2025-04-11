@@ -1,5 +1,6 @@
 package projekt_BPC_pC2T;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 
@@ -21,6 +22,8 @@ public class Main {
 		}
 		return cislo;
 	}
+	
+	
 
 
 	public static void main(String[] args) {
@@ -29,29 +32,48 @@ public class Main {
 		
 		System.out.println("\n"
 				+ "\n"
-				+ "╔────────────────────────────────────────╗\n"
-				+ "│ __              ___    ___             │\n"
-				+ "│/\\ \\            /\\_ \\  /\\_ \\            │\n"
-				+ "│\\ \\ \\___      __\\//\\ \\ \\//\\ \\     ___   │\n"
-				+ "│ \\ \\  _ `\\  /'__`\\\\ \\ \\  \\ \\ \\   / __`\\ │\n"
-				+ "│  \\ \\ \\ \\ \\/\\  __/ \\_\\ \\_ \\_\\ \\_/\\ \\L\\ \\│\n"
-				+ "│   \\ \\_\\ \\_\\ \\____\\/\\____\\/\\____\\ \\____/│\n"
-				+ "│    \\/_/\\/_/\\/____/\\/____/\\/____/\\/___/ │\n"
-				+ "╚────────────────────────────────────────╝\n"
+				+ "========================================================================\n"
+				+ "========================================================================\n"
+				+ "========================================================================\n"
+				+ "========================================================================\n"
+				+ "========================================================================\n"
+				+ "========================================================================\n"
+				+ "============+++++++++++++++++++=========================================\n"
+				+ "============########===########=========================================\n"
+				+ "============#########=+########=========================================\n"
+				+ "%%%%%%%%%%%=#####=========#####=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%=#########=#########=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%=####===========####=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%=#########=#########=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%=#########=#########=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%%=#######%%%########%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%%%##%%%#%%%%%#%%%%#=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "%%%%%%%%%%%%%%*%%%%%%%%%%%%%%=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+				+ "###############=%%%%%%%%%%%=############################################\n"
+				+ "#################=%%%%%%%=##############################################\n"
+				+ "####################===#################################################\n"
+				+ "########################################################################\n"
+				+ "########################################################################\n"
+				+ "########################################################################\n"
+				+ "########################################################################\n"
+				+ "########################################################################\n"
+				+ "########################################################################\n"
 				+ "\n"
 				+ "");
 		
-		BPC_TLI studentTLI = new BPC_TLI(10, "jozko", "Mrkvicka",new Integer[] {34, 56, 4040}, typyOdborov.TLI);
-		System.out.println(studentTLI.getMeno());
-		studentTLI.vypisDatumNarodenia();
 		
-		db.pridatStudenta(studentTLI);
-		db.najstStudenta(studentTLI.getID());
+		
+		//db.pridatStudenta(studentTLI);
+		//db.najstStudenta(studentTLI.getID());
 		
 		Scanner skener = new Scanner(System.in);
 		int volba;
 		
-			
+		LocalDate dnes = LocalDate.now();
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");  // Načítanie drivera
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/moja_databaza", "pouzivatel", "heslo");
+		System.out.println("Pripojenie úspešné!");
 		
 		
 		boolean run = true;
@@ -73,11 +95,82 @@ public class Main {
 			switch(volba)
 			{
 			case 1: 
-				System.out.print("Zadajte meno studenta: ");
+				System.out.print("zadajte meno a priezvisko: ");
+				String meno = skener.next();
+				String priezvisko = skener.next();
+				skener.nextLine();
+				System.out.print("zadajte datum narodenie studenta (RRRR-MM-DD): ");
+				String vstup = skener.nextLine();
+				LocalDate datum = LocalDate.parse(vstup);
+				System.out.print("zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
+				String odbor = skener.next();
+				int id = 1;
+				if (db.pridatStudenta(meno, priezvisko, datum, odbor))
+				{
+					System.out.println("Student uspesne pridany");
+				}
+				else {
+					System.out.println("Studenta sa nepodarilo pridat");
+				}
+
+				break;
+			case 3:
+				System.out.println("zadajte ID studenta: ");
+				int idVyhodeneho = lenCeleCisla(skener);
+				if (idVyhodeneho > 100) {
+					System.out.println("Zadali ste ID mimo rozsah.");
+				}
+				else {
+					if (db.najstStudenta(idVyhodeneho) == null) {
+						System.out.println("Student nebol najdeny");
+					}
+					else {
+					
+					db.vymazatStudenta(idVyhodeneho);
+					System.out.println("Student bol vymazany");
+					}
+				}
+				break;
 				
-				
-				
-				
+			case 4: 
+				System.out.println("zadajte ID studenta: ");
+				int hladaneId = lenCeleCisla(skener);
+				if (hladaneId > 100) {
+					System.out.println("Student s tymto ID neexistuje.");
+				}
+				else {
+					Student hladanyStudent = db.najstStudenta(hladaneId);
+					if (hladanyStudent == null) {
+						System.out.println("Student nebol najdeny");
+					}
+					else {
+					
+					System.out.println("/-----------------------------------------------\\");
+					System.out.println( "Meno a priezvisko: " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko());
+					System.out.println("odbor: " + hladanyStudent.getOdbor());
+					System.out.println("dátum narodenia: " + hladanyStudent.getDatumNarodenia());
+					System.out.println("\\-----------------------------------------------/");
+					}
+				}
+				break;
+			case 5:
+				System.out.println("zadajte ID studenta: ");
+				int idSchopnost = lenCeleCisla(skener);
+				if (idSchopnost > 100) {
+					System.out.println("Student s tymto ID neexistuje.");
+				}
+				else {
+					Student hladanyStudent = db.najstStudenta(idSchopnost);
+					if (hladanyStudent == null) {
+						System.out.println("Student nebol najdeny");
+					}
+					else {
+						if (hladanyStudent.getOdbor().equals(typyOdborov.IBE){
+							BPC_IBE hladanyIBEStudent = db.najstStudenta(idSchopnost);
+						}
+					
+					}
+				}
 				break;
 			case 10:
 				run = false;
