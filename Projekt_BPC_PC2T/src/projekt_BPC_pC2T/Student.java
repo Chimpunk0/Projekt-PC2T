@@ -1,19 +1,24 @@
 package projekt_BPC_pC2T;
 
+public enum Odbor{
+	IBE, TLI
+}
+
 public abstract class Student {
 	
 	private int ID;
 	private String meno;
 	private String priezvisko;
-	protected String odbor;
+	protected final typyOdborov odbor;
 	private static int posldedneID = 0;
 	private Integer[] datumNarodenia;
 
-	public Student(int iD, String meno, String priezvisko, Integer[] datumNarodenia) {
-		ID = ++posldedneID;
+	public Student(int iD, String meno, String priezvisko, Integer[] datumNarodenia, typyOdborov odbor) {
+		this.ID = ++posldedneID;
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.datumNarodenia = datumNarodenia;
+		this.odbor = odbor;
 	}
 
 	public int getID() {
@@ -48,7 +53,7 @@ public abstract class Student {
 		this.datumNarodenia = datumNarodenia;
 	}
 	
-	public String getOdbor() {
+	public typyOdborov getOdbor() {
 		return odbor;
 	}
 

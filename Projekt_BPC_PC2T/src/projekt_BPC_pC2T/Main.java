@@ -14,8 +14,8 @@ public class Main {
 		}
 		catch(Exception e)
 		{
-			System.out.println("Nastala vyjimka typu "+e.toString());
-			System.out.println("zadejte prosim cele cislo ");
+			System.out.println("Nastala vinimka typu "+e.toString());
+			System.out.println("zadajte prosim cele cislo ");
 			skener.nextLine();
 			cislo = lenCeleCisla(skener);
 		}
@@ -41,7 +41,7 @@ public class Main {
 				+ "\n"
 				+ "");
 		
-		BPC_TLI studentTLI = new BPC_TLI(10, "jozko", "Mrkvicka",new Integer[] {34, 56, 4040});
+		BPC_TLI studentTLI = new BPC_TLI(10, "jozko", "Mrkvicka",new Integer[] {34, 56, 4040}, typyOdborov.TLI);
 		System.out.println(studentTLI.getMeno());
 		studentTLI.vypisDatumNarodenia();
 		
@@ -57,23 +57,24 @@ public class Main {
 		boolean run = true;
 		while(run) {
 			System.out.println("Vyberte pozadovanou cinnost:");
-			System.out.println("1 .. vytvorenie noveho studenta");
-			System.out.println("2 .. vlozenie znamky studentovi");
-			System.out.println("3 .. prepustenie studenta");
-			System.out.println("4 .. vyhladavanie studenta");
-			System.out.println("5 .. spustenie specialnej schopnosti");
-			System.out.println("5 .. abecedne zoradenie studentov");
-			System.out.println("6 .. vypis celkoveho priemeru");
-			System.out.println("7 .. vypis poctu studentov");
-			System.out.println("8 .. ulozenie studenta do suboru");
-			System.out.println("9 .. nacitanie studenta zo suboru");
-			System.out.println("10 .. konec");
+			System.out.println("|1 | .. vytvorenie noveho studenta");
+			System.out.println("|2 | .. vlozenie znamky studentovi");
+			System.out.println("|3 | .. prepustenie studenta");
+			System.out.println("|4 | .. vyhladavanie studenta");
+			System.out.println("|5 | .. spustenie specialnej schopnosti");
+			System.out.println("|5 | .. abecedne zoradenie studentov");
+			System.out.println("|6 | .. vypis celkoveho priemeru");
+			System.out.println("|7 | .. vypis poctu studentov");
+			System.out.println("|8 | .. ulozenie studenta do suboru");
+			System.out.println("|9 | .. nacitanie studenta zo suboru");
+			System.out.println("|10| .. konec");
 			volba = lenCeleCisla(skener);
 			
 			switch(volba)
 			{
 			case 1: 
 				System.out.print("Zadajte meno studenta: ");
+				
 				
 				
 				
