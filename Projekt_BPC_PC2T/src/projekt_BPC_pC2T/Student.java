@@ -19,7 +19,7 @@ public abstract class Student {
 		this.odbor = odbor;
 	}
 	
-	public abstract String vykonajSchopnost();
+	//public abstract String vykonajSchopnost();
 
 	public int getID() {
 		return id;

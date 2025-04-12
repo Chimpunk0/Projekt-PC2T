@@ -12,11 +12,7 @@ public class BPC_IBE extends Student {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String vykonajSchopnost() {
-	    String menoAPriezvisko = getMeno() + getPriezvisko();
-	    return String.valueOf(menoAPriezvisko.hashCode());
-	}
+
 
 
 	

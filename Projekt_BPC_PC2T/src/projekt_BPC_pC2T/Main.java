@@ -1,5 +1,11 @@
 package projekt_BPC_pC2T;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -23,8 +29,9 @@ public class Main {
 		return cislo;
 	}
 	
-	
-
+	static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
+	static final String USER = "Simon";
+    static final String PASS = "mamRadJablka";
 
 	public static void main(String[] args) {
 		
@@ -71,14 +78,61 @@ public class Main {
 		
 		LocalDate dnes = LocalDate.now();
 		
-		Class.forName("com.mysql.cj.jdbc.Driver");  // Načítanie drivera
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/moja_databaza", "pouzivatel", "heslo");
-		System.out.println("Pripojenie úspešné!");
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
+            System.out.println("Connected to database!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 		
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	             Statement stmt = conn.createStatement()) {
+
+	            String sql = "CREATE TABLE IF NOT EXISTS users (" +
+	                         "id INT PRIMARY KEY AUTO_INCREMENT, " +
+	                         "name VARCHAR(50), " +
+	                         "email VARCHAR(50))";
+	            stmt.executeUpdate(sql);
+	            System.out.println("Table created!");
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+		
+		String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "John Doe");
+            pstmt.setString(2, "john@example.com");
+            pstmt.executeUpdate();
+            System.out.println("Data inserted!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        String sql1 = "SELECT * FROM users";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql1)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                System.out.println("ID: " + id + ", Name: " + name + ", Email: " + email);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 		
 		boolean run = true;
 		while(run) {
-			System.out.println("Vyberte pozadovanou cinnost:");
+			System.out.println("Vyberte pozadovanu cinnost:");
 			System.out.println("|1 | .. vytvorenie noveho studenta");
 			System.out.println("|2 | .. vlozenie znamky studentovi");
 			System.out.println("|3 | .. prepustenie studenta");
@@ -165,8 +219,8 @@ public class Main {
 						System.out.println("Student nebol najdeny");
 					}
 					else {
-						if (hladanyStudent.getOdbor().equals(typyOdborov.IBE){
-							BPC_IBE hladanyIBEStudent = db.najstStudenta(idSchopnost);
+						if (hladanyStudent.getOdbor().equals(typyOdborov.IBE)){
+							System.out.println("WIP");
 						}
 					
 					}
