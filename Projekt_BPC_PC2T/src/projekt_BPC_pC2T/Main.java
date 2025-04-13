@@ -78,7 +78,57 @@ public class Main {
 		
 		LocalDate dnes = LocalDate.now();
 		
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
+            System.out.println("Connected to database!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 		
+		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	             Statement stmt = conn.createStatement()) {
+
+	            String sql = "CREATE TABLE IF NOT EXISTS users (" +
+	                         "id INT PRIMARY KEY AUTO_INCREMENT, " +
+	                         "name VARCHAR(50), " +
+	                         "email VARCHAR(50))";
+	            stmt.executeUpdate(sql);
+	            System.out.println("Table created!");
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+		
+		String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, "John Doe");
+            pstmt.setString(2, "john@example.com");
+            pstmt.executeUpdate();
+            System.out.println("Data inserted!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        String sql1 = "SELECT * FROM users";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql1)) {
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                System.out.println("ID: " + id + ", Name: " + name + ", Email: " + email);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 		
 		boolean run = true;
 		while(run) {
