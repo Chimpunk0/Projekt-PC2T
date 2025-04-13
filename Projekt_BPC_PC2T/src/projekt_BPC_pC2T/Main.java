@@ -169,10 +169,7 @@ public class Main {
 						System.out.println("Student nebol najdeny");
 					}
 					else {
-						if (hladanyStudent.getOdbor().equals(typyOdborov.IBE)){
-							System.out.println("WIP");
-						}
-					
+						System.out.println(hladanyStudent.vykonajSchopnost());
 					}
 				}
 				break;
