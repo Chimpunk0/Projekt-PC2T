@@ -16,14 +16,14 @@ public class Databaza {
 	int id = 1;
 	
 	public boolean pridatStudenta(String meno, String priezvisko, LocalDate datum, String odbor) {
-		if (odbor.equals(typyOdborov.IBE) ) {
+		if (odbor.equals(typyOdborov.IBE.name()) ) {
 			
 			if (prvkyDatabazy.put(id, new BPC_IBE(meno, priezvisko, datum, typyOdborov.IBE)) == null) {
 				return true;
 			}
 			else return false;
 		}
-		else if (odbor.equals(typyOdborov.TLI)) {
+		else if (odbor.equals(typyOdborov.TLI.name())) {
 			if (prvkyDatabazy.put(id, new BPC_TLI(meno, priezvisko, datum, typyOdborov.TLI)) == null) {
 				return true;
 			}

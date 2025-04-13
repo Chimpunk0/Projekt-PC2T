@@ -9,6 +9,11 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import javax.sql.DataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
+
+import projekt_BPC_pC2T.MySQL.DBconnection;
+
 
 
 public class Main {
@@ -28,14 +33,16 @@ public class Main {
 		}
 		return cislo;
 	}
+
 	
-	static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
-	static final String USER = "Simon";
-    static final String PASS = "mamRadJablka";
 
 	public static void main(String[] args) {
 		
-		Databaza db = new Databaza();
+		
+	    
+	   DBconnection.connectDB();
+	   Databaza db = new Databaza();
+	   DBconnection.createTable();
 		
 		System.out.println("\n"
 				+ "\n"
@@ -76,7 +83,6 @@ public class Main {
 		Scanner skener = new Scanner(System.in);
 		int volba;
 		
-		LocalDate dnes = LocalDate.now();
 		
 		
 		
