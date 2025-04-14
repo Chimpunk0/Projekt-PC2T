@@ -17,9 +17,12 @@ public class Databaza {
 	int id = 1;
 	
 	public boolean pridatStudenta(String meno, String priezvisko, LocalDate datum, String odbor) {
+<<<<<<< HEAD
 		int noveID = dalsieID;
 		dalsieID++;
 		
+=======
+>>>>>>> 9c03aacf32fd96b71c34c4e164bc97b7be736d02
 		if (odbor.equals(typyOdborov.IBE.name()) ) {
 			
 			if (prvkyDatabazy.put(noveID, new BPC_IBE(noveID, meno, priezvisko, datum, typyOdborov.IBE)) == null) {
@@ -29,8 +32,12 @@ public class Databaza {
 			else return false;
 		}
 		else if (odbor.equals(typyOdborov.TLI.name())) {
+<<<<<<< HEAD
 			if (prvkyDatabazy.put(noveID, new BPC_TLI(noveID, meno, priezvisko, datum, typyOdborov.TLI)) == null) {
 				id=id++;
+=======
+			if (prvkyDatabazy.put(id, new BPC_TLI(meno, priezvisko, datum, typyOdborov.TLI)) == null) {
+>>>>>>> 9c03aacf32fd96b71c34c4e164bc97b7be736d02
 				return true;
 			}
 			else return false;
