@@ -7,9 +7,9 @@ import java.util.HashMap;
 public class BPC_TLI extends Student {
 	
 
-	public BPC_TLI(String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
+	public BPC_TLI(int id, String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
 		
-		super(meno, priezvisko, datumNarodenia, typyOdborov.TLI);
+		super(id, meno, priezvisko, datumNarodenia, typyOdborov.TLI);
 
 	}
 		static private final HashMap<Character, String>morseovka = new HashMap<Character, String>();

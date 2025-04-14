@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public abstract class Student {
 	
-	protected int id;
+	protected final int id;
 	private String meno;
 	protected String priezvisko;
 	protected final typyOdborov odbor;
 	private int posledneId = 0;
 	private LocalDate datumNarodenia;
 
-	public Student(String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
+	public Student(int id, String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
 		this.id = ++posledneId;
 		this.meno = meno;
 		this.priezvisko = priezvisko;
@@ -25,9 +25,6 @@ public abstract class Student {
 		return id;
 	}
 
-	public void setID(int iD) {
-		id = iD;
-	}
 	
 	public int getposledneId() {
 		return posledneId;
