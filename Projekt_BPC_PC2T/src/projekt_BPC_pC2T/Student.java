@@ -7,7 +7,7 @@ import projekt_BPC_pC2T.MySQL.DBManagement;
 
 public abstract class Student {
 	
-	protected final int id;
+	protected int id;
 	private String meno;
 	protected String priezvisko;
 	private int posledneId = DBManagement.getAktualneMaxId();
@@ -16,11 +16,7 @@ public abstract class Student {
 	private List znamky;
 
 	public Student(int id, String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
-<<<<<<< HEAD
-		this.id = ++posledneId;
-=======
 		this.id = id;
->>>>>>> 3d37581 (sql databáza funguje zároveň a databázou v programe.)
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.datumNarodenia = datumNarodenia;
@@ -33,6 +29,9 @@ public abstract class Student {
 		return id;
 	}
 
+	public void setID(int iD) {
+		id = iD;
+	}
 	
 	public int getposledneId() {
 		return posledneId;

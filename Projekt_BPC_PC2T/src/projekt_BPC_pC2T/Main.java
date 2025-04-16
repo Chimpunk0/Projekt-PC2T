@@ -159,9 +159,10 @@ public class Main {
 						System.out.println("Student nebol najdeny");
 					}
 					else {
-						System.out.println("/-----------------------------------------------\\");
-						System.out.println(hladanyStudent.vykonajSchopnost());
-						System.out.println("\\-----------------------------------------------/");
+						if (hladanyStudent.getOdbor().equals(typyOdborov.IBE)){
+							System.out.println("WIP");
+						}
+					
 					}
 				}
 				
