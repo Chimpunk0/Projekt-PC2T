@@ -11,6 +11,7 @@ public class BPC_IBE extends Student {
 		
 		// TODO Auto-generated constructor stub
 	}
+<<<<<<< HEAD
 
 	@Override
 	String vykonajSchopnost() {
@@ -23,5 +24,14 @@ public class BPC_IBE extends Student {
 
 
 	
+=======
+>>>>>>> 3d37581 (sql databáza funguje zároveň a databázou v programe.)
 	
+	@Override
+	String vykonajSchopnost() {
+		String menoAPriezvisko = this.getMeno()+this.getPriezvisko();
+		String hash = String.valueOf(menoAPriezvisko.hashCode());
+		return hash;
+	}
+		
 }

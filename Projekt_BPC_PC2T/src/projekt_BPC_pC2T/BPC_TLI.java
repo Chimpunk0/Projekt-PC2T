@@ -49,10 +49,18 @@ public class BPC_TLI extends Student {
 			return textBezDiakritiky.replaceAll("[^\\p{ASCII}]", "");
 				}
 		
+<<<<<<< HEAD
 		/*static public String vykonajSchopnost(String meno, String priezvisko) {
 			String menoAPriezvisko = meno + " " + priezvisko;
 			menoAPriezvisko = menoAPriezvisko.toLowerCase();
 			menoAPriezvisko = diakritikaMinus(menoAPriezvisko);
+=======
+		@Override
+		String vykonajSchopnost() {
+			String menoAPriezvisko = this.getMeno()+" "+this.getPriezvisko();
+			menoAPriezvisko = diakritikaMinus(menoAPriezvisko.toLowerCase());
+			
+>>>>>>> 3d37581 (sql databáza funguje zároveň a databázou v programe.)
 			String textVMorseovke = "|";
 			
 			for (int i = 0; i < menoAPriezvisko.length(); i++)
@@ -79,6 +87,7 @@ public class BPC_TLI extends Student {
 			
 			return textVMorseovke;
 		}
+
 
 		
 

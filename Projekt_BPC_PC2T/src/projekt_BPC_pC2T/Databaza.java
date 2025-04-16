@@ -14,8 +14,8 @@ public class Databaza {
 		prvkyDatabazy = new HashMap<Integer, Student>();
 	}
 	Scanner skener = new Scanner(System.in);
-	int id = 1;
 	
+<<<<<<< HEAD
 	public boolean pridatStudenta(String meno, String priezvisko, LocalDate datum, String odbor) {
 <<<<<<< HEAD
 		int noveID = dalsieID;
@@ -27,17 +27,29 @@ public class Databaza {
 			
 			if (prvkyDatabazy.put(noveID, new BPC_IBE(noveID, meno, priezvisko, datum, typyOdborov.IBE)) == null) {
 				id=id++;
+=======
+	
+	
+	public boolean pridatStudenta(int id, String meno, String priezvisko, LocalDate datum, String odbor) {
+		if (odbor.equals(typyOdborov.IBE.name()) ) {
+			
+			if (prvkyDatabazy.put(id, new BPC_IBE(id, meno, priezvisko, datum, typyOdborov.IBE)) == null) {
+>>>>>>> 3d37581 (sql databáza funguje zároveň a databázou v programe.)
 				return true;
 			}
 			else return false;
 		}
 		else if (odbor.equals(typyOdborov.TLI.name())) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			if (prvkyDatabazy.put(noveID, new BPC_TLI(noveID, meno, priezvisko, datum, typyOdborov.TLI)) == null) {
 				id=id++;
 =======
 			if (prvkyDatabazy.put(id, new BPC_TLI(meno, priezvisko, datum, typyOdborov.TLI)) == null) {
 >>>>>>> 9c03aacf32fd96b71c34c4e164bc97b7be736d02
+=======
+			if (prvkyDatabazy.put(id, new BPC_TLI(id, meno, priezvisko, datum, typyOdborov.TLI)) == null) {
+>>>>>>> 3d37581 (sql databáza funguje zároveň a databázou v programe.)
 				return true;
 			}
 			else return false;

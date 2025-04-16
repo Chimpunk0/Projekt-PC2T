@@ -1,18 +1,26 @@
 package projekt_BPC_pC2T;
 
 import java.time.LocalDate;
+import java.util.List;
+
+import projekt_BPC_pC2T.MySQL.DBManagement;
 
 public abstract class Student {
 	
 	protected final int id;
 	private String meno;
 	protected String priezvisko;
+	private int posledneId = DBManagement.getAktualneMaxId();
 	protected final typyOdborov odbor;
-	private int posledneId = 0;
 	private LocalDate datumNarodenia;
+	private List znamky;
 
 	public Student(int id, String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
+<<<<<<< HEAD
 		this.id = ++posledneId;
+=======
+		this.id = id;
+>>>>>>> 3d37581 (sql databáza funguje zároveň a databázou v programe.)
 		this.meno = meno;
 		this.priezvisko = priezvisko;
 		this.datumNarodenia = datumNarodenia;

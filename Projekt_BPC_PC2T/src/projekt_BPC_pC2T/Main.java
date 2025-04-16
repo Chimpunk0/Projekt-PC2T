@@ -7,12 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.sql.DataSource;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import projekt_BPC_pC2T.MySQL.DBconnection;
+import projekt_BPC_pC2T.MySQL.DBManagement;
+import projekt_BPC_pC2T.MySQL.DeleteQueries;
+import projekt_BPC_pC2T.MySQL.InsertQueries;
+import projekt_BPC_pC2T.MySQL.SelectQueries;
 
 
 
@@ -40,41 +44,13 @@ public class Main {
 		
 		
 	    
-	   DBconnection.connectDB();
-	   Databaza db = new Databaza();
-	   DBconnection.createTable();
-		
-		System.out.println("\n"
-				+ "\n"
-				+ "========================================================================\n"
-				+ "========================================================================\n"
-				+ "========================================================================\n"
-				+ "========================================================================\n"
-				+ "========================================================================\n"
-				+ "========================================================================\n"
-				+ "============+++++++++++++++++++=========================================\n"
-				+ "============########===########=========================================\n"
-				+ "============#########=+########=========================================\n"
-				+ "%%%%%%%%%%%=#####=========#####=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%=#########=#########=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%=####===========####=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%=#########=#########=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%=#########=#########=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%%=#######%%%########%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%%%##%%%#%%%%%#%%%%#=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "%%%%%%%%%%%%%%*%%%%%%%%%%%%%%=%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-				+ "###############=%%%%%%%%%%%=############################################\n"
-				+ "#################=%%%%%%%=##############################################\n"
-				+ "####################===#################################################\n"
-				+ "########################################################################\n"
-				+ "########################################################################\n"
-				+ "########################################################################\n"
-				+ "########################################################################\n"
-				+ "########################################################################\n"
-				+ "########################################################################\n"
-				+ "\n"
-				+ "");
-		
+	   DBManagement.connectDB();
+	   DBManagement.createTable();
+	   DBManagement.inicializaciaMaxId();
+	   int posledneId = DBManagement.getAktualneMaxId();
+	   DBManagement.nacitajStudentovDoMapy();
+	   HashMap<Integer, Student> studenti = DBManagement.getStudentiMap();
+	   
 		
 		
 		//db.pridatStudenta(studentTLI);
@@ -84,57 +60,6 @@ public class Main {
 		int volba;
 		
 		
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS)) {
-            System.out.println("Connected to database!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-		
-		try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	             Statement stmt = conn.createStatement()) {
-
-	            String sql = "CREATE TABLE IF NOT EXISTS users (" +
-	                         "id INT PRIMARY KEY AUTO_INCREMENT, " +
-	                         "name VARCHAR(50), " +
-	                         "email VARCHAR(50))";
-	            stmt.executeUpdate(sql);
-	            System.out.println("Table created!");
-
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-		
-		String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, "John Doe");
-            pstmt.setString(2, "john@example.com");
-            pstmt.executeUpdate();
-            System.out.println("Data inserted!");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        String sql1 = "SELECT * FROM users";
-
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql1)) {
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String email = rs.getString("email");
-                System.out.println("ID: " + id + ", Name: " + name + ", Email: " + email);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 		
 		boolean run = true;
 		while(run) {
@@ -164,42 +89,50 @@ public class Main {
 				LocalDate datum = LocalDate.parse(vstup);
 				System.out.print("zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
 				String odbor = skener.next();
-				int id = 1;
-				if (db.pridatStudenta(meno, priezvisko, datum, odbor))
+				int id = ++posledneId;
+				
+				
+				if (DBManagement.pridatStudenta(id, meno, priezvisko, datum, odbor))
 				{
+					InsertQueries.insertStudent(id, meno, priezvisko, datum, odbor);
 					System.out.println("Student uspesne pridany");
 				}
 				else {
 					System.out.println("Studenta sa nepodarilo pridat");
 				}
-
+				
+				break;
+			case 2:
+				
 				break;
 			case 3:
 				System.out.println("zadajte ID studenta: ");
 				int idVyhodeneho = lenCeleCisla(skener);
-				if (idVyhodeneho > 100) {
+				if (idVyhodeneho > posledneId) {
 					System.out.println("Zadali ste ID mimo rozsah.");
 				}
 				else {
-					if (db.najstStudenta(idVyhodeneho) == null) {
+					Student prepusteny = DBManagement.najstStudenta(idVyhodeneho);
+					if (prepusteny == null){
 						System.out.println("Student nebol najdeny");
 					}
 					else {
-					
-					db.vymazatStudenta(idVyhodeneho);
+					DBManagement.vymazatStudenta(idVyhodeneho);
+					DeleteQueries.deleteStudent(idVyhodeneho);
 					System.out.println("Student bol vymazany");
 					}
 				}
 				break;
 				
 			case 4: 
+				
 				System.out.println("zadajte ID studenta: ");
 				int hladaneId = lenCeleCisla(skener);
 				if (hladaneId > 100) {
 					System.out.println("Student s tymto ID neexistuje.");
 				}
 				else {
-					Student hladanyStudent = db.najstStudenta(hladaneId);
+					Student hladanyStudent = DBManagement.najstStudenta(hladaneId);
 					if (hladanyStudent == null) {
 						System.out.println("Student nebol najdeny");
 					}
@@ -212,15 +145,16 @@ public class Main {
 					System.out.println("\\-----------------------------------------------/");
 					}
 				}
+				
 				break;
 			case 5:
 				System.out.println("zadajte ID studenta: ");
 				int idSchopnost = lenCeleCisla(skener);
-				if (idSchopnost > 100) {
+				if (idSchopnost > posledneId) {
 					System.out.println("Student s tymto ID neexistuje.");
 				}
 				else {
-					Student hladanyStudent = db.najstStudenta(idSchopnost);
+					Student hladanyStudent = DBManagement.najstStudenta(idSchopnost);
 					if (hladanyStudent == null) {
 						System.out.println("Student nebol najdeny");
 					}
@@ -230,6 +164,7 @@ public class Main {
 						System.out.println("\\-----------------------------------------------/");
 					}
 				}
+				
 				break;
 			case 10:
 				run = false;
