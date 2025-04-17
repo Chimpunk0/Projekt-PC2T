@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class SelectQueries {
 	
-	public static void queryData() {
+	/*public static void queryData() {
 	    String sql = "SELECT * FROM studenti";
 
 	    try (Connection conn = DBManagement.dataSource.getConnection();
@@ -33,6 +33,6 @@ public class SelectQueries {
 	       } catch (SQLException e) {
 	           e.printStackTrace();
 	       }
-	}
+	}*/
 
 }

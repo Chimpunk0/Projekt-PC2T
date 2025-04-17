@@ -1,6 +1,7 @@
 package projekt_BPC_pC2T;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import projekt_BPC_pC2T.MySQL.DBManagement;
@@ -13,7 +14,7 @@ public abstract class Student {
 	private int posledneId = DBManagement.getAktualneMaxId();
 	protected final typyOdborov odbor;
 	private LocalDate datumNarodenia;
-	private List znamky;
+	private List<Integer> znamky;
 
 	public Student(int id, String meno, String priezvisko, LocalDate datumNarodenia, typyOdborov odbor) {
 		this.id = id;
@@ -21,6 +22,7 @@ public abstract class Student {
 		this.priezvisko = priezvisko;
 		this.datumNarodenia = datumNarodenia;
 		this.odbor = odbor;
+		this.znamky = new ArrayList<Integer>();
 	}
 	
 	abstract String vykonajSchopnost();
@@ -63,6 +65,15 @@ public abstract class Student {
 	
 	public typyOdborov getOdbor() {
 		return odbor;
+	}
+	
+	public void pridatZnamku(int znamka) {
+		this.znamky.add(znamka);
+	}
+	
+	public List<Integer> getZnamky() {
+		
+		return znamky;
 	}
 
 	

@@ -58,6 +58,12 @@ public class Main {
 		
 		Scanner skener = new Scanner(System.in);
 		int volba;
+		Student studentx = new BPC_IBE(10, "Jozko", "Mrkvicka", LocalDate.parse("2000-11-11"), typyOdborov.IBE);
+		studentx.pridatZnamku(1);
+		studentx.pridatZnamku(5);
+		studentx.pridatZnamku(4);
+		studentx.pridatZnamku(1);
+		System.out.println(studentx.getZnamky());
 		
 		
 		
@@ -103,7 +109,33 @@ public class Main {
 				
 				break;
 			case 2:
-				
+				System.out.print("Zadajte ID ziadaneho studenta: ");
+				id = lenCeleCisla(skener);
+				if (id > posledneId) {
+					System.out.println("Mimo rozsah");
+				}
+					else {
+						Student student = DBManagement.najstStudenta(id);
+						if ( student == null) {
+							System.out.println("Student neexistuje");
+						}
+						else {
+							System.out.println("Známky študenta " + student.getMeno() + ": " + student.getZnamky());
+							System.out.print("Pridajte znamku: ");
+							int znamka = lenCeleCisla(skener);
+							if (znamka < 1 || znamka > 5) {
+								System.out.println("Mimo rozsah, (1-5)!");
+							}
+								else {
+									student.pridatZnamku(znamka);
+									InsertQueries.insertZnamka(id, znamka, student.getOdbor().toString());
+									System.out.println("Známky študenta " + student.getMeno() + ": " + student.getZnamky());	
+									
+								}
+						
+						}
+						
+				}
 				break;
 			case 3:
 				System.out.println("zadajte ID studenta: ");
@@ -128,7 +160,7 @@ public class Main {
 				
 				System.out.println("zadajte ID studenta: ");
 				int hladaneId = lenCeleCisla(skener);
-				if (hladaneId > 100) {
+				if (hladaneId > posledneId) {
 					System.out.println("Student s tymto ID neexistuje.");
 				}
 				else {

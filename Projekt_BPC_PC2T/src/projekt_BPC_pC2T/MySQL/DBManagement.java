@@ -95,26 +95,41 @@ public class DBManagement {
 	private static HashMap<Integer, Student> studentiMap = new HashMap<>();
 	
 	public static void nacitajStudentovDoMapy() {
-		String sql = "SELECT * FROM studenti";
+		String sqlStudenti = "SELECT * FROM studenti";
 		
 		try (Connection conn = dataSource.getConnection();
-	             PreparedStatement pstmt = conn.prepareStatement(sql);
-	             ResultSet rs = pstmt.executeQuery()) {
+	             PreparedStatement pstmtStudenti = conn.prepareStatement(sqlStudenti);
+	             ResultSet rsStudenti = pstmtStudenti.executeQuery()) {
 			
-			while (rs.next()) {
-				int id = rs.getInt("id");
-				String meno = rs.getString("meno");
-				String priezvisko = rs.getString("priezvisko");
-				Date sqlDatum = rs.getDate("dátum_narodenia");
+			while (rsStudenti.next()) {
+				int id = rsStudenti.getInt("id");
+				String meno = rsStudenti.getString("meno");
+				String priezvisko = rsStudenti.getString("priezvisko");
+				Date sqlDatum = rsStudenti.getDate("dátum_narodenia");
 				LocalDate datum = (sqlDatum != null)? sqlDatum.toLocalDate(): null;
-				String odbor = rs.getString("odbor");
-				if (DBManagement.pridatStudenta(id, meno, priezvisko, datum, odbor)) {
-					System.out.println("Student s ID " + id + " bol pridany." );
-				}
-				else {
-					System.out.println("Studenta sa nepodarilo pridat.");
+				String odbor = rsStudenti.getString("odbor");
+				
+				pridatStudenta(id, meno, priezvisko, datum, odbor);
+					
+			}
+			
+			String sqlZnamky = "SELECT * FROM znamky";
+			
+			try (PreparedStatement pstmtZnamky = conn.prepareStatement(sqlZnamky);
+					ResultSet rsZnamky = pstmtZnamky.executeQuery()){
+				
+				while (rsZnamky.next()) {
+					int studentId = rsZnamky.getInt("studenti_id");
+					int znamka = rsZnamky.getInt("znamka");
+					
+					Student student = studentiMap.get(studentId);
+					if (student != null) {
+						student.pridatZnamku(znamka);
+					}
+					
 				}
 			}
+			
 		}
 				
 		catch(SQLException e){
