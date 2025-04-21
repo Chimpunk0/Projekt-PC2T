@@ -75,6 +75,19 @@ public abstract class Student {
 		
 		return znamky;
 	}
+	
+	public double getPriemer() {
+        if (znamky.isEmpty()) {
+            return 0.0; 
+        }
+        int pocitadlo = 0;
+        double hodnotaZnamok = 0;
+        for (int znamka : znamky) {
+        	hodnotaZnamok += znamka;
+        	++pocitadlo;
+        }
+        return hodnotaZnamok / pocitadlo;
+    }
 
 	
 

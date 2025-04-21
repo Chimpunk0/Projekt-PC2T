@@ -2,20 +2,24 @@ package projekt_BPC_pC2T.MySQL;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+
 import projekt_BPC_pC2T.BPC_IBE;
 import projekt_BPC_pC2T.BPC_TLI;
-import projekt_BPC_pC2T.Databaza;
 import projekt_BPC_pC2T.Student;
 import projekt_BPC_pC2T.typyOdborov;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DBManagement {
-    static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
-    static final String USER = "Simon";
-    static final String PASS = "mamRadJablka";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
+    private static final String USER = "Simon";
+    private static final String PASS = "mamRadJablka";
     
     public static MysqlDataSource dataSource; 
 
@@ -110,6 +114,7 @@ public class DBManagement {
 				String odbor = rsStudenti.getString("odbor");
 				
 				pridatStudenta(id, meno, priezvisko, datum, odbor);
+				System.out.println("pridany");
 					
 			}
 			
@@ -136,6 +141,22 @@ public class DBManagement {
 			e.printStackTrace();
 		}
 	            
+	}
+	
+	public static Map<typyOdborov, List<Student>> getZoradenychStudentovPodlaOdboru() {
+	    Map<typyOdborov, List<Student>> studentiPodlaOdboru = new HashMap<>();
+
+	    for (Student student : studentiMap.values()) {
+	        typyOdborov odbor = student.getOdbor();
+	        studentiPodlaOdboru.computeIfAbsent(odbor, k -> new ArrayList<>()).add(student);
+	    }
+
+
+	    for (List<Student> studenti : studentiPodlaOdboru.values()) {
+	        studenti.sort(Comparator.comparing(Student::getPriezvisko));
+	    }
+
+	    return studentiPodlaOdboru;
 	}
 		
 	

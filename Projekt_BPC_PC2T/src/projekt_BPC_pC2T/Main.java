@@ -1,17 +1,12 @@
 package projekt_BPC_pC2T;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.sql.DataSource;
-import com.mysql.cj.jdbc.MysqlDataSource;
+
 
 import projekt_BPC_pC2T.MySQL.DBManagement;
 import projekt_BPC_pC2T.MySQL.DeleteQueries;
@@ -21,6 +16,8 @@ import projekt_BPC_pC2T.MySQL.SelectQueries;
 
 
 public class Main {
+	
+	private static final Scanner skener = new Scanner(System.in);
 	
 	public static int lenCeleCisla(Scanner skener) {
 		int cislo = 0;
@@ -37,7 +34,15 @@ public class Main {
 		}
 		return cislo;
 	}
+	
+	public static void cakajEnter () {
+		System.out.println("Stlacte Enter na pokracovanie...");
+		skener.nextLine();
+		Ostatne.vycistiKonzolu();
+		Ostatne.vypisVolby();
+	}
 
+	
 	
 
 	public static void main(String[] args) {
@@ -49,38 +54,16 @@ public class Main {
 	   DBManagement.inicializaciaMaxId();
 	   int posledneId = DBManagement.getAktualneMaxId();
 	   DBManagement.nacitajStudentovDoMapy();
-	   HashMap<Integer, Student> studenti = DBManagement.getStudentiMap();
+	   //HashMap<Integer, Student> studenti = DBManagement.getStudentiMap();
+	   SelectQueries.vypisDatabazy();
 	   
-		
-		
-		//db.pridatStudenta(studentTLI);
-		//db.najstStudenta(studentTLI.getID());
-		
-		Scanner skener = new Scanner(System.in);
-		int volba;
-		Student studentx = new BPC_IBE(10, "Jozko", "Mrkvicka", LocalDate.parse("2000-11-11"), typyOdborov.IBE);
-		studentx.pridatZnamku(1);
-		studentx.pridatZnamku(5);
-		studentx.pridatZnamku(4);
-		studentx.pridatZnamku(1);
-		System.out.println(studentx.getZnamky());
-		
-		
-		
+	   int volba;
+	   
+
 		boolean run = true;
+		Ostatne.vypisVolby();
 		while(run) {
-			System.out.println("Vyberte pozadovanu cinnost:");
-			System.out.println("|1 | .. vytvorenie noveho studenta");
-			System.out.println("|2 | .. vlozenie znamky studentovi");
-			System.out.println("|3 | .. prepustenie studenta");
-			System.out.println("|4 | .. vyhladavanie studenta");
-			System.out.println("|5 | .. spustenie specialnej schopnosti");
-			System.out.println("|5 | .. abecedne zoradenie studentov");
-			System.out.println("|6 | .. vypis celkoveho priemeru");
-			System.out.println("|7 | .. vypis poctu studentov");
-			System.out.println("|8 | .. ulozenie studenta do suboru");
-			System.out.println("|9 | .. nacitanie studenta zo suboru");
-			System.out.println("|10| .. konec");
+			
 			volba = lenCeleCisla(skener);
 			
 			switch(volba)
@@ -94,19 +77,20 @@ public class Main {
 				String vstup = skener.nextLine();
 				LocalDate datum = LocalDate.parse(vstup);
 				System.out.print("zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
-				String odbor = skener.next();
+				String odbor = skener.next().toUpperCase();
 				int id = ++posledneId;
 				
 				
 				if (DBManagement.pridatStudenta(id, meno, priezvisko, datum, odbor))
 				{
 					InsertQueries.insertStudent(id, meno, priezvisko, datum, odbor);
-					System.out.println("Student uspesne pridany");
+					System.out.println("Student is ID: " + id + " uspesne pridany");
 				}
 				else {
 					System.out.println("Studenta sa nepodarilo pridat");
 				}
-				
+				skener.nextLine();
+				cakajEnter();
 				break;
 			case 2:
 				System.out.print("Zadajte ID ziadaneho studenta: ");
@@ -136,6 +120,8 @@ public class Main {
 						}
 						
 				}
+				skener.nextLine();
+				cakajEnter();
 				break;
 			case 3:
 				System.out.println("zadajte ID studenta: ");
@@ -176,6 +162,8 @@ public class Main {
 					System.out.println("dátum narodenia: " + hladanyStudent.getDatumNarodenia());
 					System.out.println("\\-----------------------------------------------/");
 					}
+					skener.nextLine();
+					cakajEnter();
 				}
 				
 				break;
@@ -191,16 +179,54 @@ public class Main {
 						System.out.println("Student nebol najdeny");
 					}
 					else {
-						if (hladanyStudent.getOdbor().equals(typyOdborov.IBE)){
-							System.out.println("WIP");
+						if (hladanyStudent.getOdbor() == typyOdborov.IBE)
+						{
+							System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() +
+												" prevedene do hashu: " + hladanyStudent.vykonajSchopnost());
+						}
+						else if (hladanyStudent.getOdbor() == typyOdborov.TLI)
+						{
+							System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() + 
+							"prevedene do morseovky: " + hladanyStudent.vykonajSchopnost());
+
 						}
 					
 					}
+	
 				}
 				
 				break;
+			case 6:
+				break;
+			case 7:
+				Ostatne.vycistiKonzolu();
+				System.out.println("Vypis celkoveho priemeru pre odbor");
+				System.out.println("----------------------------------");
+				System.out.print("Zadajte ziadany odbor: ");
+				String hladanyOdbor = skener.next().toUpperCase();
+				float priemer = SelectQueries.celkovyPriemer(hladanyOdbor);
+				System.out.println(priemer);
+				skener.nextLine();
+				cakajEnter();
+				break;
+			case 8:
+				Ostatne.vycistiKonzolu();
+				System.out.println("Vypis celkoveho poctu ziakov v odbore");
+				System.out.println("----------------------------------");
+				System.out.print("Zadajte ziadany odbor: ");
+				String hladanyOdbor2 = skener.next().toUpperCase();
+				int pocetStudentov = SelectQueries.pocetStudentov(hladanyOdbor2);
+				System.out.println("Pocet studentov v odbore " + hladanyOdbor2 + ": " + pocetStudentov);
+				skener.nextLine();
+				cakajEnter();
+				break;
+			case 9:
+				break;
 			case 10:
+				break;
+			case 11:
 				run = false;
+				skener.close();
 				System.out.println("KONIEC programu");
 				return;
 			}
