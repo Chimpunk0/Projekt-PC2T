@@ -156,11 +156,14 @@ public class Main {
 					}
 					else {
 					
-					System.out.println("/-----------------------------------------------\\");
-					System.out.println( "Meno a priezvisko: " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko());
-					System.out.println("odbor: " + hladanyStudent.getOdbor());
-					System.out.println("dátum narodenia: " + hladanyStudent.getDatumNarodenia());
-					System.out.println("\\-----------------------------------------------/");
+					System.out.println("\033[0;1m" + "/-------------------------------------------\\" + "\033[0m");
+					System.out.println("\033[1;32m" + "ID: " + "\033[0m" + hladanyStudent.getID());
+					System.out.println("\033[1;32m" + "Meno a priezvisko: " + "\033[0m" + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko());
+					System.out.println("\033[1;32m" + "dátum narodenia: " + "\033[0m" + hladanyStudent.getDatumNarodenia());
+					System.out.println("\033[1;32m" + "odbor: " + "\033[0m" + hladanyStudent.getOdbor());
+					System.out.println("\033[1;32m" + "známky: " + "\033[0m" + hladanyStudent.getZnamky());
+					System.out.println("\033[1;32m" + "priemer: " + "\033[0m" + hladanyStudent.getPriemer());
+					System.out.println("\033[0;1m" + "\\-------------------------------------------/" + "\033[0m");
 					}
 					skener.nextLine();
 					cakajEnter();
@@ -194,6 +197,7 @@ public class Main {
 					}
 	
 				}
+				cakajEnter();
 				
 				break;
 			case 6:

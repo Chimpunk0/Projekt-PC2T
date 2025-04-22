@@ -35,9 +35,9 @@ public class Ostatne {
 				+ "                                   |___/                       |___/           |___/ \n"
 				+ "\n");
 		
-		System.out.println("\n/----------------------------------------\\");
-		System.out.println("|Vyberte pozadovanu cinnost:             |");
-		System.out.println("+--+-------------------------------------+");
+		System.out.println("\n/--------------------------------------------\\");
+		System.out.println("|Vyberte pozadovanu cinnost:                 |");
+		System.out.println("+--+-----------------------------------------+");
 		System.out.println("|1 | -> vytvorenie noveho studenta");
 		System.out.println("|2 | -> vlozenie znamky studentovi");
 		System.out.println("|3 | -> prepustenie studenta");
@@ -49,7 +49,7 @@ public class Ostatne {
 		System.out.println("|9 | -> ulozenie studenta do suboru");
 		System.out.println("|10| –> nacitanie studenta zo suboru");
 		System.out.println("|11| -> konec");
-		System.out.println("\\--+-------------------------------------/\n");
+		System.out.println("\\--+----------------------------------------/\n");
 		System.out.print("Volba: ");
 		
 	}
