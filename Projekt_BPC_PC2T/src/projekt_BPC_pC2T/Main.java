@@ -19,23 +19,7 @@ public class Main {
 	
 	private static final Scanner skener = new Scanner(System.in);
 	
-	public static int lenCeleCisla(Scanner skener) {
-		int cislo = 0;
-		try
-		{
-			cislo = skener.nextInt();
-		}
-		catch(Exception e)
-		{
-			System.out.println("Nastala vinimka typu "+e.toString());
-			System.out.println("zadajte prosim cele cislo ");
-			skener.nextLine();
-			cislo = lenCeleCisla(skener);
-		}
-		return cislo;
-	}
-	
-	public static void cakajEnter () {
+	private static void cakajEnter () {
 		System.out.println("Stlacte Enter na pokracovanie...");
 		skener.nextLine();
 		Ostatne.vycistiKonzolu();
@@ -46,9 +30,7 @@ public class Main {
 	
 
 	public static void main(String[] args) {
-		
-		
-	    
+		 
 	   DBManagement.connectDB();
 	   DBManagement.createTable();
 	   DBManagement.inicializaciaMaxId();
@@ -57,16 +39,17 @@ public class Main {
 	   //HashMap<Integer, Student> studenti = DBManagement.getStudentiMap();
 	   SelectQueries.vypisDatabazy();
 	   
-	   int volba;
 	   
-
-		boolean run = true;
-		Ostatne.vypisVolby();
-		while(run) {
+	   int volba;
+	   boolean run = true;
+	   Ostatne.vypisVolby();
+	   
+		
+	   while(run) {
 			
-			volba = lenCeleCisla(skener);
+			volba = Ostatne.lenCeleCisla(skener);
 			
-			switch(volba)
+		switch(volba)
 			{
 			case 1: 
 				System.out.print("zadajte meno a priezvisko: ");
@@ -94,7 +77,7 @@ public class Main {
 				break;
 			case 2:
 				System.out.print("Zadajte ID ziadaneho studenta: ");
-				id = lenCeleCisla(skener);
+				id = Ostatne.lenCeleCisla(skener);
 				if (id > posledneId) {
 					System.out.println("Mimo rozsah");
 				}
@@ -106,7 +89,7 @@ public class Main {
 						else {
 							System.out.println("Známky študenta " + student.getMeno() + ": " + student.getZnamky());
 							System.out.print("Pridajte znamku: ");
-							int znamka = lenCeleCisla(skener);
+							int znamka = Ostatne.lenCeleCisla(skener);
 							if (znamka < 1 || znamka > 5) {
 								System.out.println("Mimo rozsah, (1-5)!");
 							}
@@ -124,38 +107,57 @@ public class Main {
 				cakajEnter();
 				break;
 			case 3:
-				System.out.println("zadajte ID studenta: ");
-				int idVyhodeneho = lenCeleCisla(skener);
-				if (idVyhodeneho > posledneId) {
-					System.out.println("Zadali ste ID mimo rozsah.");
-				}
-				else {
+				while (true) {
+					
+					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					int idVyhodeneho = Ostatne.lenCeleCisla(skener);
+					
+					if (idVyhodeneho == 0) {
+						break;
+					}
+					
+					if (idVyhodeneho > posledneId) {
+						System.out.println("Zadali ste ID mimo rozsah.");
+						continue;
+					}
+					
+					
 					Student prepusteny = DBManagement.najstStudenta(idVyhodeneho);
 					if (prepusteny == null){
 						System.out.println("Student nebol najdeny");
+						continue;
+						}
+						
+
+						DBManagement.vymazatStudenta(idVyhodeneho);
+						DeleteQueries.deleteStudent(idVyhodeneho);
+						System.out.println("Student bol vymazany");
 					}
-					else {
-					DBManagement.vymazatStudenta(idVyhodeneho);
-					DeleteQueries.deleteStudent(idVyhodeneho);
-					System.out.println("Student bol vymazany");
-					}
-				}
+				
+				cakajEnter();
 				break;
 				
 			case 4: 
-				
-				System.out.println("zadajte ID studenta: ");
-				int hladaneId = lenCeleCisla(skener);
-				if (hladaneId > posledneId) {
-					System.out.println("Student s tymto ID neexistuje.");
-				}
-				else {
+				while(true) {
+					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					int hladaneId = Ostatne.lenCeleCisla(skener);
+					
+					if(hladaneId == 0) {
+						break;
+					}
+					
+					if (hladaneId > posledneId) {
+						System.out.println("Student s tymto ID neexistuje.");
+						continue;
+					}
+					
 					Student hladanyStudent = DBManagement.najstStudenta(hladaneId);
 					if (hladanyStudent == null) {
 						System.out.println("Student nebol najdeny");
+						continue;
 					}
-					else {
-					
+						
+						
 					System.out.println("\033[0;1m" + "/-------------------------------------------\\" + "\033[0m");
 					System.out.println("\033[1;32m" + "ID: " + "\033[0m" + hladanyStudent.getID());
 					System.out.println("\033[1;32m" + "Meno a priezvisko: " + "\033[0m" + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko());
@@ -164,64 +166,102 @@ public class Main {
 					System.out.println("\033[1;32m" + "známky: " + "\033[0m" + hladanyStudent.getZnamky());
 					System.out.println("\033[1;32m" + "priemer: " + "\033[0m" + hladanyStudent.getPriemer());
 					System.out.println("\033[0;1m" + "\\-------------------------------------------/" + "\033[0m");
-					}
 					skener.nextLine();
 					cakajEnter();
+					break;
+					
+
 				}
-				
+				cakajEnter();
 				break;
 			case 5:
-				System.out.println("zadajte ID studenta: ");
-				int idSchopnost = lenCeleCisla(skener);
-				if (idSchopnost > posledneId) {
-					System.out.println("Student s tymto ID neexistuje.");
-				}
-				else {
+				while(true) {
+					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					int idSchopnost = Ostatne.lenCeleCisla(skener);
+					
+					if (idSchopnost == 0) {
+						break;
+					}
+					
+					if (idSchopnost > posledneId) {
+						System.out.println("Student s tymto ID neexistuje.");
+						continue;
+					}
+					
 					Student hladanyStudent = DBManagement.najstStudenta(idSchopnost);
 					if (hladanyStudent == null) {
 						System.out.println("Student nebol najdeny");
+						continue;
 					}
-					else {
-						if (hladanyStudent.getOdbor() == typyOdborov.IBE)
-						{
-							System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() +
-												" prevedene do hashu: " + hladanyStudent.vykonajSchopnost());
-						}
-						else if (hladanyStudent.getOdbor() == typyOdborov.TLI)
-						{
-							System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() + 
-							"prevedene do morseovky: " + hladanyStudent.vykonajSchopnost());
+						
+					if (hladanyStudent.getOdbor() == typyOdborov.IBE)
+					{
+						System.out.println("/-------------------------------------------------------------\\");
+						System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() +
+											" prevedene do hashu: " + hladanyStudent.vykonajSchopnost());
+						System.out.println("\\------------------------------------------------------------/");
+					}
+					else if (hladanyStudent.getOdbor() == typyOdborov.TLI)
+					{
+						System.out.println("/-----------------------------------------------------------------------------------------------------------------\\");
+						System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() + 
+						"prevedene do morseovky: " + hladanyStudent.vykonajSchopnost());
+						System.out.println("\\-----------------------------------------------------------------------------------------------------------------/");
 
-						}
-					
-					}
 	
+					}
+					skener.nextLine();
+					cakajEnter();
+					break;
+
 				}
-				cakajEnter();
-				
+		
 				break;
+				
 			case 6:
+				DBManagement.vypisZoradenychStudentov();
+				skener.nextLine();
+				cakajEnter();
 				break;
 			case 7:
-				Ostatne.vycistiKonzolu();
-				System.out.println("Vypis celkoveho priemeru pre odbor");
+				System.out.println("Vypis celkoveho priemeru pre odbor ");
 				System.out.println("----------------------------------");
-				System.out.print("Zadajte ziadany odbor: ");
-				String hladanyOdbor = skener.next().toUpperCase();
-				float priemer = SelectQueries.celkovyPriemer(hladanyOdbor);
-				System.out.println(priemer);
-				skener.nextLine();
+				System.out.print("Zadajte ziadany odbor (0 pre navrat do menu): ");
+				while(true) {
+					
+					
+					typyOdborov hladanyOdbor = Ostatne.lenOdbor(skener);
+					
+					if (hladanyOdbor == null) {
+						break;
+					}
+					
+					float priemer = SelectQueries.celkovyPriemer(hladanyOdbor.toString());
+					System.out.println(priemer);
+					skener.nextLine();
+					break;
+					
+					
+				}
 				cakajEnter();
 				break;
 			case 8:
-				Ostatne.vycistiKonzolu();
 				System.out.println("Vypis celkoveho poctu ziakov v odbore");
 				System.out.println("----------------------------------");
-				System.out.print("Zadajte ziadany odbor: ");
-				String hladanyOdbor2 = skener.next().toUpperCase();
-				int pocetStudentov = SelectQueries.pocetStudentov(hladanyOdbor2);
-				System.out.println("Pocet studentov v odbore " + hladanyOdbor2 + ": " + pocetStudentov);
-				skener.nextLine();
+				System.out.print("Zadajte ziadany odbor (0 pre navrat do menu): ");
+				while(true) {
+					typyOdborov hladanyOdbor = Ostatne.lenOdbor(skener);
+					
+					if(hladanyOdbor == null) {
+						break;
+					}
+					
+					int pocetStudentov = SelectQueries.pocetStudentov(hladanyOdbor.toString());
+					System.out.println("Pocet studentov v odbore " + hladanyOdbor + ": " + pocetStudentov);
+					skener.nextLine();
+					
+					break;
+				}
 				cakajEnter();
 				break;
 			case 9:
@@ -233,6 +273,10 @@ public class Main {
 				skener.close();
 				System.out.println("KONIEC programu");
 				return;
+			default: 
+				System.out.println("Neplatna volba");
+				skener.nextLine();
+				cakajEnter();
 			}
 	}
 

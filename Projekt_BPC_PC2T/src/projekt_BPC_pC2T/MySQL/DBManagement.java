@@ -143,6 +143,8 @@ public class DBManagement {
 	            
 	}
 	
+	
+	
 	public static Map<typyOdborov, List<Student>> getZoradenychStudentovPodlaOdboru() {
 	    Map<typyOdborov, List<Student>> studentiPodlaOdboru = new HashMap<>();
 
@@ -159,6 +161,36 @@ public class DBManagement {
 	    return studentiPodlaOdboru;
 	}
 		
+	
+	public static void vypisZoradenychStudentov () {
+		Map <typyOdborov, List<Student>> studentiPodlaOdboru = getZoradenychStudentovPodlaOdboru();
+		
+		for (typyOdborov odbor : typyOdborov.values()) {
+			List<Student> studenti = studentiPodlaOdboru.get(odbor);
+			
+			System.out.println("\n/---------------------------------------------------------------------\\");
+			System.out.println("\033[1;35m" + "Odbor: "  + odbor + "\033[0m");
+			for (Student student : studenti) {
+				String rokNarodenia = String.valueOf(student.getDatumNarodenia().getYear());
+				
+				System.out.print("\033[1;32m" + "ID: " + "\033[0m" + student.getID());
+				System.out.print("\t\033[1;32m" + "rok narodenia: " + "\033[0m" + rokNarodenia);
+				System.out.println("\t\033[1;32m" + "Meno a priezvisko: " + "\033[0m" + student.getMeno() + " " + student.getPriezvisko());
+				
+	
+				
+				}
+			System.out.println("\033[0;1m" + "\\---------------------------------------------------------------------/" + "\033[0m");
+				
+			}
+		}
+		
+	
+
+	
+	
+	
+	
 	
 	public static boolean pridatStudenta(int id, String meno, String priezvisko, LocalDate datum, String odbor) {
 		Student student;	
@@ -178,6 +210,8 @@ public class DBManagement {
 	
 		
 	}
+	
+	
 	public static boolean vymazatStudenta(int id) {
 		if (studentiMap.get(id) == null) {
 			return false;
@@ -185,10 +219,13 @@ public class DBManagement {
 		studentiMap.remove(id);
 		return true;
 	}
-
+	
+	
 
 	public static HashMap<Integer, Student> getStudentiMap() {
 		return studentiMap;
 	}
+	
+	
 	
 	}

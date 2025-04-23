@@ -1,5 +1,9 @@
 package projekt_BPC_pC2T;
 
+import java.util.Scanner;
+
+import projekt_BPC_pC2T.MySQL.DBManagement;
+
 public class Ostatne {
 	
 	public enum OS {
@@ -72,6 +76,68 @@ public class Ostatne {
     }
 	
 	
+	public static int lenCeleCisla(Scanner skener) {
+		int cislo = 0;
+		try
+		{
+			cislo = skener.nextInt();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Nastala vynimka typu "+e.toString());
+			System.out.println("zadajte prosim cele cislo: ");
+			skener.nextLine();
+			cislo = lenCeleCisla(skener);
+		}
+		return cislo;
+	}
+	
+	public static typyOdborov lenOdbor(Scanner skener) {
+	    while (true) {
+	        String input = skener.next().trim().toUpperCase();
+
+	        if (input.equals("0")) {
+	            return null; 
+	        }
+
+	        try {
+	            return typyOdborov.valueOf(input);
+	        } catch (IllegalArgumentException e) {
+	            System.out.print("Neplatny odbor! Povolene hodnoty: IBE, TLI alebo 0: ");
+	        }
+	    }
+	}
+		
+
+	
+	
+	/*public static boolean overenieId (int id) {
+		
+		if (id > DBManagement.getAktualneMaxId()) {
+			System.out.println("Mimo rozsah");
+			return false;
+		}
+			else {
+				Student student = DBManagement.najstStudenta(id);
+				if ( student == null) {
+					System.out.println("Student neexistuje");
+					return false;
+				}
+				return true;
+	}
+	
+	
+	}*/
+	
+	public static Integer ziskajOvereneID(Scanner skener, int posledneId) {
+	    System.out.print("Zadajte ID študenta: ");
+	    int id = lenCeleCisla(skener);
+	    if (id > posledneId) {
+	        System.out.println("Mimo rozsah");
+	        return null;
+	    }
+	    return id;
+	}
 }
 
 
