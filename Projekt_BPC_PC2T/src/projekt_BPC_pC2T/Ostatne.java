@@ -1,8 +1,10 @@
 package projekt_BPC_pC2T;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import projekt_BPC_pC2T.MySQL.DBManagement;
 
 public class Ostatne {
 	
@@ -52,7 +54,8 @@ public class Ostatne {
 		System.out.println("|8 | -> vypis poctu studentov");
 		System.out.println("|9 | -> ulozenie studenta do suboru");
 		System.out.println("|10| –> nacitanie studenta zo suboru");
-		System.out.println("|11| -> konec");
+		System.out.println("|11| –> vypis databazy");
+		System.out.println("|12| -> konec");
 		System.out.println("\\--+----------------------------------------/\n");
 		System.out.print("Volba: ");
 		
@@ -107,27 +110,39 @@ public class Ostatne {
 	        }
 	    }
 	}
-		
-
 	
-	
-	/*public static boolean overenieId (int id) {
-		
-		if (id > DBManagement.getAktualneMaxId()) {
-			System.out.println("Mimo rozsah");
-			return false;
+	public static LocalDate lenLocalDate(Scanner skener) {
+		while(true) {
+				String vstup = skener.nextLine().trim();
+				LocalDate datum = null;
+			try {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+				datum = LocalDate.parse(vstup, formatter);
+				return datum;
+			}
+			catch(DateTimeParseException e) {
+				System.out.println(e.toString());
+				System.out.println("Neplatny datum! Zadajte v tvare DD.MM.RRRR: ");
+				
+			}	
 		}
-			else {
-				Student student = DBManagement.najstStudenta(id);
-				if ( student == null) {
-					System.out.println("Student neexistuje");
-					return false;
-				}
-				return true;
 	}
 	
-	
-	}*/
+	public static int lenZnamka(Scanner skener) {
+		while(true) {
+			int znamka = Ostatne.lenCeleCisla(skener);
+			if (znamka < 1 || znamka > 5) {
+				System.out.println("Mimo rozsah, (1-5)!");
+				System.out.print("Znova: ");
+				continue;
+			}
+			return znamka;
+		}
+		
+		
+	}
+		
+
 	
 	public static Integer ziskajOvereneID(Scanner skener, int posledneId) {
 	    System.out.print("Zadajte ID študenta: ");

@@ -1,6 +1,8 @@
 package projekt_BPC_pC2T;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,12 @@ public abstract class Student {
 
 	public LocalDate getDatumNarodenia() {
 		return datumNarodenia;
+	}
+	
+	public String formatovanyDatumNarodenia() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy").withResolverStyle(ResolverStyle.STRICT);
+		
+		return datumNarodenia.format(formatter);
 	}
 
 	public void setDatumNarodenia(LocalDate datumNarodenia) {

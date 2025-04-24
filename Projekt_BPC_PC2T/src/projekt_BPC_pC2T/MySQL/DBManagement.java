@@ -114,7 +114,6 @@ public class DBManagement {
 				String odbor = rsStudenti.getString("odbor");
 				
 				pridatStudenta(id, meno, priezvisko, datum, odbor);
-				System.out.println("pridany");
 					
 			}
 			

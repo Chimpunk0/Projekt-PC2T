@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class SelectQueries {
 	
@@ -18,16 +17,17 @@ public class SelectQueries {
 	           try (ResultSet rs = pstmt.executeQuery()) {  
 	               
 	               System.out.println("/--------------------------------------------------\\");
-	               System.out.println("| ID | Meno | Priezvisko | Datum narodenia | Odbor |");
+	               System.out.println("| ID | Odbor | Datum narodenia | Meno | Priezvisko |");
 	               System.out.println("+--------------------------------------------------+");
 	               while (rs.next()) {
 	                   System.out.printf(
-	                       "| %d   %s	%s	%s	%s",
+	                       "| %d\t%s\t%s\t%s\t%s",
 	                       rs.getInt("id"),
-	                       rs.getString("meno"),
-	                       rs.getString("priezvisko"),
+	                       rs.getString("odbor"),
 	                       rs.getDate("dátum_narodenia"),
-	                       rs.getString("odbor"));
+	                       
+	                       rs.getString("meno"),
+	                       rs.getString("priezvisko"));
 	                   		System.out.println("");
 	               }
 	               

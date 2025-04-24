@@ -15,8 +15,8 @@ public class BPC_IBE extends Student {
 	@Override
 	String vykonajSchopnost() {
 		String menoAPriezvisko = this.getMeno()+this.getPriezvisko();
-		String hash = String.valueOf(menoAPriezvisko.hashCode());
-		return hash;
+		int hash = menoAPriezvisko.hashCode();
+		return Integer.toHexString(hash).toUpperCase();
 	}
 		
 }

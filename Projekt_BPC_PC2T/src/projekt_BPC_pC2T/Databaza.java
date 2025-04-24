@@ -1,13 +1,10 @@
 package projekt_BPC_pC2T;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import projekt_BPC_pC2T.MySQL.DBManagement;
 
 public class Databaza {
 	
