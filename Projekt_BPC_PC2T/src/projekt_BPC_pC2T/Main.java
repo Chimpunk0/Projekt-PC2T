@@ -293,8 +293,65 @@ public class Main {
 				cakajEnter();
 				break;
 			case 9:
+				System.out.println(FormatovanyText.MAGENTA_BOLD + "Ulozenie do suboru" + FormatovanyText.RRESET);
+				System.out.println("------------------------------");
+				while(true) {
+					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					int idUkladanie = Ostatne.lenCeleCisla(skener);
+					
+					if (idUkladanie == 0) {
+						break;
+					}
+					
+					if (idUkladanie > posledneId) {
+						System.out.println("Student s tymto ID neexistuje.");
+						continue;
+					}
+					
+					if (Txtsubor.ulozDoSuboru(idUkladanie)) {
+						System.out.println("Student s ID "+idUkladanie+" bol ulozeny do suboru.");
+						skener.nextLine();
+						break;
+					}
+					else {
+						System.out.println("Studenta sa nepodarilo ulozit do suboru.");
+						skener.nextLine();
+						break;
+					}
+					
+				}
+				
+				cakajEnter();	
 				break;
 			case 10:
+				System.out.println(FormatovanyText.MAGENTA_BOLD + "Nacitanie zo suboru" + FormatovanyText.RRESET);
+				System.out.println("------------------------------");
+				while(true) {
+					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					int idNacitanie = Ostatne.lenCeleCisla(skener);
+					
+					if (idNacitanie == 0) {
+						break;
+					}
+					
+					if (idNacitanie > posledneId) {
+						System.out.println("Student s tymto ID neexistuje.");
+						continue;
+					}
+					
+					if (Txtsubor.nacitajZoSuboru(idNacitanie)) {
+						skener.nextLine();
+						break;
+					}
+					else {
+						System.out.println("Nacitanie zo suboru sa nepodarilo.");
+						skener.nextLine();
+						break;
+					}
+					
+				}
+				
+				cakajEnter();	
 				break;
 			case 11:
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Vypis databazy" + FormatovanyText.RRESET);

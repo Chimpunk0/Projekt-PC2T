@@ -1,0 +1,6 @@
+ID: 2
+Meno: Ivana
+Priezvisko: Dorcakova
+Datum narodenia: 2005-04-26
+Odbor: IBE
+Znamky: 1, 4
