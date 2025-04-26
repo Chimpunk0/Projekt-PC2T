@@ -1,7 +1,6 @@
 package projekt_BPC_pC2T.MySQL;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;

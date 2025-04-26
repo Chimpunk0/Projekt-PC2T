@@ -1,0 +1,5 @@
+Meno: Ivan
+Priezvisko: Krasko
+Datum narodenia: 1912-06-02
+Odbor: IBE
+Znamky: 1, 4, 1, 3, 2, 1, 1

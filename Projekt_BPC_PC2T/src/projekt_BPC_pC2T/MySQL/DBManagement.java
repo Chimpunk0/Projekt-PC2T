@@ -18,8 +18,8 @@ import java.util.Map;
 
 public class DBManagement {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
-    private static final String USER = "root";
-    private static final String PASS = "Fjy35d4en2_SQL";
+    private static final String USER = "Simon";
+    private static final String PASS = "mamRadJablka";
     
     public static MysqlDataSource dataSource; 
 
@@ -225,6 +225,9 @@ public class DBManagement {
 		return studentiMap;
 	}
 	
+	public static void addToStudentiMap(int id, Student student) {
+		studentiMap.put(id, student);
+	}
 	
 	
 	}

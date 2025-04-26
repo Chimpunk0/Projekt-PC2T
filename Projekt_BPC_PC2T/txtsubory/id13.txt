@@ -1,0 +1,6 @@
+ID: 13
+Meno: Martina
+Priezvisko: Pollakova
+Datum narodenia: 1976-06-02
+Odbor: TLI
+Znamky: 1, 4, 1

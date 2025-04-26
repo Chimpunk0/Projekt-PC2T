@@ -156,7 +156,7 @@ public class Main {
 						System.out.println("Student bol vymazany");
 						break;
 					}
-				
+				skener.nextLine();
 				cakajEnter();
 				break;
 				
@@ -324,35 +324,32 @@ public class Main {
 				cakajEnter();	
 				break;
 			case 10:
+				boolean vlozitDoDatabazy;
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Nacitanie zo suboru" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				while(true) {
-					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
-					int idNacitanie = Ostatne.lenCeleCisla(skener);
+					System.out.print("zadajte nazov suboru alebo jeho cestu (0 pre navrat do menu): ");
+					String filename = skener.next();
 					
-					if (idNacitanie == 0) {
+					if (filename.equals("0")) {
 						break;
 					}
 					
-					if (idNacitanie > posledneId) {
-						System.out.println("Student s tymto ID neexistuje.");
-						continue;
-					}
+					System.out.print("Chcete ulozit studenta od databazy? (y/n): ");
+					vlozitDoDatabazy = Ostatne.ulozZoSuboru(skener);
 					
-					if (Txtsubor.nacitajZoSuboru(idNacitanie)) {
-						skener.nextLine();
-						break;
-					}
-					else {
-						System.out.println("Nacitanie zo suboru sa nepodarilo.");
-						skener.nextLine();
-						break;
-					}
 					
-				}
-				
-				cakajEnter();	
-				break;
+					
+					boolean loadResult = Txtsubor.nacitajZoSuboru(filename, vlozitDoDatabazy);
+			        if (loadResult) {
+			            break;
+			        } else {
+			            System.out.println("Nacitanie zo suboru sa nepodarilo.");
+			        }
+			    }
+				skener.nextLine();
+				cakajEnter();
+			    break;
 			case 11:
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Vypis databazy" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");

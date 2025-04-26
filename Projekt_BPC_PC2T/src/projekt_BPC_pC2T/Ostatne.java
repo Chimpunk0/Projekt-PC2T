@@ -143,16 +143,28 @@ public class Ostatne {
 	}
 		
 
-	
-	public static Integer ziskajOvereneID(Scanner skener, int posledneId) {
-	    System.out.print("Zadajte ID študenta: ");
-	    int id = lenCeleCisla(skener);
-	    if (id > posledneId) {
-	        System.out.println("Mimo rozsah");
-	        return null;
-	    }
-	    return id;
+	public static boolean ulozZoSuboru(Scanner skener) {
+		boolean vlozitDoDatabazy;
+		while(true) {
+		String odpoved = skener.next().toLowerCase();
+		
+		if (odpoved.equals("y")) {
+			vlozitDoDatabazy = true;
+			break;
+		}
+		else if (odpoved.equals("n")) {
+			vlozitDoDatabazy = false;
+			break;
+		}
+		else {
+			System.out.print("Neplatny Vstup, (y/n): ");
+			continue;
+		}
+		
+		}
+		return vlozitDoDatabazy;
 	}
+	
 }
 
 

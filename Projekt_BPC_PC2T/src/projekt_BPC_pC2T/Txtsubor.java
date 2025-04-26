@@ -10,8 +10,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Insert;
 
 import projekt_BPC_pC2T.MySQL.DBManagement;
+import projekt_BPC_pC2T.MySQL.InsertQueries;
 
 public class Txtsubor {
 	
@@ -67,19 +71,20 @@ public class Txtsubor {
 	}
 	
 	
-	public static boolean nacitajZoSuboru(int id) {
+	public static boolean nacitajZoSuboru(String filename, boolean vlozitDoDatabazy) {
 		Student student;
-		String meno = "", priezvisko = "", odborString = "";
+		String meno = "", priezvisko = "";
 		LocalDate datumNarodenia = null;
 		List<Integer> znamky = new ArrayList<>();
 		typyOdborov odbor = null;
+		int id = 0;
 		
 		
 		FileReader fr=null;
 		BufferedReader in=null;
 
 		try {
-			fr = new FileReader("txtsubory/id"+id+".txt");
+			fr = new FileReader(filename);
 			in = new BufferedReader(fr);
 			String riadok;
 			while ((riadok=in.readLine()) != null) {
@@ -90,6 +95,9 @@ public class Txtsubor {
 				String hodnota = casti[1].trim();
 				
 				switch(kluc) {
+				case "ID":
+					id=Integer.parseInt(hodnota);
+					break;
 				case "Meno":
 					meno=hodnota;
 					break;
@@ -114,6 +122,13 @@ public class Txtsubor {
 				
 			}
 			
+			if (id == 0) {
+				int posledneId  =  DBManagement.getAktualneMaxId();
+				id = ++posledneId;
+			}
+			
+			
+			
 			if (odbor == typyOdborov.IBE) {
 			    student = new BPC_IBE(id, meno, priezvisko, datumNarodenia, odbor);
 			} else {
@@ -122,6 +137,19 @@ public class Txtsubor {
 			  for (int znamka : znamky) {
 	                student.pridatZnamku(znamka);
 	            }
+			  
+			  if (vlozitDoDatabazy == true) {
+					DBManagement.addToStudentiMap(id, student);
+					InsertQueries.insertStudent(id, meno, priezvisko, datumNarodenia, odbor.toString());
+					for (int znamka : znamky){
+						InsertQueries.insertZnamka(id, znamka, odbor.toString());
+					}
+					System.out.println("Student bol pridany");
+				}
+			  else System.out.println("Student nebol pridany");
+			  
+
+			  
 			
 			  System.out.println("\033[0;1m/-------------------------------------------\\\033[0m");
 	            System.out.println("\033[1;32mID: \033[0m" + student.getID());
@@ -157,6 +185,11 @@ public class Txtsubor {
 			} 
 		}
 		
+	}
+	
+	
+	public static boolean nacitajZoSuboru(String filename) {
+		return nacitajZoSuboru(filename, false);
 	}
 	
 
