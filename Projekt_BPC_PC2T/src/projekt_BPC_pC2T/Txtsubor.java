@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Insert;
 
 import projekt_BPC_pC2T.MySQL.DBManagement;
 import projekt_BPC_pC2T.MySQL.InsertQueries;
@@ -21,7 +19,7 @@ public class Txtsubor {
 	
 	public static boolean ulozDoSuboru(int id) {
 		try {
-			Student student = DBManagement.najstStudenta(id);
+			Student student = StudentManagement.najstStudenta(id);
 			
 			if (student == null) {
 				System.out.println("Student s tymto ID neexistuje");
@@ -84,7 +82,7 @@ public class Txtsubor {
 		BufferedReader in=null;
 
 		try {
-			fr = new FileReader(filename);
+			fr = new FileReader("txtsubory/" + filename);
 			in = new BufferedReader(fr);
 			String riadok;
 			while ((riadok=in.readLine()) != null) {
@@ -139,7 +137,7 @@ public class Txtsubor {
 	            }
 			  
 			  if (vlozitDoDatabazy == true) {
-					DBManagement.addToStudentiMap(id, student);
+					StudentManagement.addToStudentiMap(id, student);
 					InsertQueries.insertStudent(id, meno, priezvisko, datumNarodenia, odbor.toString());
 					for (int znamka : znamky){
 						InsertQueries.insertZnamka(id, znamka, odbor.toString());

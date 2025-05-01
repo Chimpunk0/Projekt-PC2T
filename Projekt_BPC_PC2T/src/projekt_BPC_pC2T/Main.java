@@ -20,8 +20,8 @@ public class Main {
 	private static void cakajEnter () {
 		System.out.println("Stlacte Enter na pokracovanie...");
 		skener.nextLine();
-		Ostatne.vycistiKonzolu();
-		Ostatne.vypisVolby();
+		SpracovanieRozhrania.vycistiKonzolu();
+		SpracovanieRozhrania.vypisVolby();
 	}
 
 	
@@ -39,16 +39,17 @@ public class Main {
 	   
 	   int volba;
 	   boolean run = true;
-	   Ostatne.vypisVolby();
+	   SpracovanieRozhrania.vypisVolby();
 	   
 		
 	   while(run) {
 			
-			volba = Ostatne.lenCeleCisla(skener);
+			volba = SpracovanieVstupov.lenCeleCisla(skener);
 			
 		switch(volba)
 			{
 			case 1:
+				
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Pridanie studenta" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				while(true) {
@@ -69,16 +70,16 @@ public class Main {
 					
 					skener.nextLine();
 					System.out.print("zadajte datum narodenie studenta (DD.MM.RRRR): ");
-					LocalDate datum = Ostatne.lenLocalDate(skener);
+					LocalDate datum = SpracovanieVstupov.lenLocalDate(skener);
 					System.out.print("zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
-					typyOdborov odbor = Ostatne.lenOdbor(skener);
+					typyOdborov odbor = SpracovanieVstupov.lenOdbor(skener);
 					
 					
 					int id = ++posledneId;
-					if (DBManagement.pridatStudenta(id, meno, priezvisko, datum, odbor.toString()))
+					if (StudentManagement.pridatStudenta(id, meno, priezvisko, datum, odbor.toString()))
 					{
 						InsertQueries.insertStudent(id, meno, priezvisko, datum, odbor.toString());
-						System.out.println("Student is ID: " + id + " uspesne pridany");
+						System.out.println("Student s ID: " + id + " uspesne pridany");
 						break;
 					}
 					else {
@@ -95,7 +96,7 @@ public class Main {
 				System.out.println("------------------------------");
 				while(true) {
 				System.out.print("Zadajte ID ziadaneho studenta (0 pre navrat do menu): ");
-				int id = Ostatne.lenCeleCisla(skener);
+				int id = SpracovanieVstupov.lenCeleCisla(skener);
 				
 				if(id == 0) {
 					break;
@@ -106,7 +107,7 @@ public class Main {
 					continue;
 				}
 				
-				Student student = DBManagement.najstStudenta(id);
+				Student student = StudentManagement.najstStudenta(id);
 				if ( student == null) {
 					System.out.println("Student neexistuje");
 					continue;
@@ -115,7 +116,7 @@ public class Main {
 				System.out.println("Známky študenta " + student.getMeno() + ": " + student.getZnamky());
 				System.out.print("Pridajte znamku: ");
 				
-				int znamka = Ostatne.lenZnamka(skener);
+				int znamka = SpracovanieVstupov.lenZnamka(skener);
 							
 				student.pridatZnamku(znamka);
 				InsertQueries.insertZnamka(id, znamka, student.getOdbor().toString());
@@ -132,7 +133,7 @@ public class Main {
 				while (true) {
 					
 					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
-					int idVyhodeneho = Ostatne.lenCeleCisla(skener);
+					int idVyhodeneho = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if (idVyhodeneho == 0) {
 						break;
@@ -144,14 +145,14 @@ public class Main {
 					}
 					
 					
-					Student prepusteny = DBManagement.najstStudenta(idVyhodeneho);
+					Student prepusteny = StudentManagement.najstStudenta(idVyhodeneho);
 					if (prepusteny == null){
 						System.out.println("Student nebol najdeny");
 						continue;
 						}
 						
 
-						DBManagement.vymazatStudenta(idVyhodeneho);
+						StudentManagement.vymazatStudenta(idVyhodeneho);
 						DeleteQueries.deleteStudent(idVyhodeneho);
 						System.out.println("Student bol vymazany");
 						break;
@@ -165,7 +166,7 @@ public class Main {
 				System.out.println("------------------------------");
 				while(true) {
 					System.out.print("zadajte ID studenta (0 pre navrat do menu): ");
-					int hladaneId = Ostatne.lenCeleCisla(skener);
+					int hladaneId = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if(hladaneId == 0) {
 						break;
@@ -176,7 +177,7 @@ public class Main {
 						continue;
 					}
 					
-					Student hladanyStudent = DBManagement.najstStudenta(hladaneId);
+					Student hladanyStudent = StudentManagement.najstStudenta(hladaneId);
 					if (hladanyStudent == null) {
 						System.out.println("Student nebol najdeny");
 						continue;
@@ -203,7 +204,7 @@ public class Main {
 				System.out.println("------------------------------");
 				while(true) {
 					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
-					int idSchopnost = Ostatne.lenCeleCisla(skener);
+					int idSchopnost = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if (idSchopnost == 0) {
 						break;
@@ -214,7 +215,7 @@ public class Main {
 						continue;
 					}
 					
-					Student hladanyStudent = DBManagement.najstStudenta(idSchopnost);
+					Student hladanyStudent = StudentManagement.najstStudenta(idSchopnost);
 					if (hladanyStudent == null) {
 						System.out.println("Student nebol najdeny");
 						continue;
@@ -231,7 +232,7 @@ public class Main {
 					{
 						System.out.println("/-----------------------------------------------------------------------------------------------------------------\\");
 						System.out.println("Meno " + hladanyStudent.getMeno() + " " + hladanyStudent.getPriezvisko() + 
-											"prevedene do morseovky: " + hladanyStudent.vykonajSchopnost());
+											" prevedene do morseovky: " + hladanyStudent.vykonajSchopnost());
 						System.out.println("\\-----------------------------------------------------------------------------------------------------------------/");
 
 	
@@ -247,18 +248,18 @@ public class Main {
 			case 6:
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Zoradenie studentov" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
-				DBManagement.vypisZoradenychStudentov();
+				StudentManagement.vypisZoradenychStudentov();
 				skener.nextLine();
 				cakajEnter();
 				break;
 			case 7:
-				System.out.println(FormatovanyText.MAGENTA_BOLD + "Vypis celkoveho priemeru pre odbr" + FormatovanyText.RRESET);
+				System.out.println(FormatovanyText.MAGENTA_BOLD + "Vypis celkoveho priemeru pre odbor" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				System.out.print("Zadajte ziadany odbor (0 pre navrat do menu): ");
 				while(true) {
 					
 					
-					typyOdborov hladanyOdbor = Ostatne.lenOdbor(skener);
+					typyOdborov hladanyOdbor = SpracovanieVstupov.lenOdbor(skener);
 					
 					if (hladanyOdbor == null) {
 						break;
@@ -278,7 +279,7 @@ public class Main {
 				System.out.println("------------------------------");
 				System.out.print("Zadajte ziadany odbor (0 pre navrat do menu): ");
 				while(true) {
-					typyOdborov hladanyOdbor = Ostatne.lenOdbor(skener);
+					typyOdborov hladanyOdbor = SpracovanieVstupov.lenOdbor(skener);
 					
 					if(hladanyOdbor == null) {
 						break;
@@ -297,7 +298,7 @@ public class Main {
 				System.out.println("------------------------------");
 				while(true) {
 					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
-					int idUkladanie = Ostatne.lenCeleCisla(skener);
+					int idUkladanie = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if (idUkladanie == 0) {
 						break;
@@ -336,7 +337,7 @@ public class Main {
 					}
 					
 					System.out.print("Chcete ulozit studenta od databazy? (y/n): ");
-					vlozitDoDatabazy = Ostatne.ulozZoSuboru(skener);
+					vlozitDoDatabazy = SpracovanieVstupov.ulozZoSuboru(skener);
 					
 					
 					
@@ -360,7 +361,7 @@ public class Main {
 			case 12:
 				run = false;
 				skener.close();
-				Ostatne.vycistiKonzolu();
+				SpracovanieRozhrania.vycistiKonzolu();
 				System.out.println("KONIEC programu");
 				return;
 			default: 

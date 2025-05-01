@@ -2,19 +2,12 @@ package projekt_BPC_pC2T.MySQL;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-
-import projekt_BPC_pC2T.BPC_IBE;
-import projekt_BPC_pC2T.BPC_TLI;
 import projekt_BPC_pC2T.Student;
-import projekt_BPC_pC2T.typyOdborov;
+import projekt_BPC_pC2T.StudentManagement;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class DBManagement {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
@@ -96,7 +89,7 @@ public class DBManagement {
 	}
 	
 	
-	private static HashMap<Integer, Student> studentiMap = new HashMap<>();
+	public static HashMap<Integer, Student> studentiMap = new HashMap<>();
 	
 	public static void nacitajStudentovDoMapy() {
 		String sqlStudenti = "SELECT * FROM studenti";
@@ -113,7 +106,7 @@ public class DBManagement {
 				LocalDate datum = (sqlDatum != null)? sqlDatum.toLocalDate(): null;
 				String odbor = rsStudenti.getString("odbor");
 				
-				pridatStudenta(id, meno, priezvisko, datum, odbor);
+				StudentManagement.pridatStudenta(id, meno, priezvisko, datum, odbor);
 					
 			}
 			
@@ -140,93 +133,6 @@ public class DBManagement {
 			e.printStackTrace();
 		}
 	            
-	}
-	
-	
-	
-	public static Map<typyOdborov, List<Student>> getZoradenychStudentovPodlaOdboru() {
-	    Map<typyOdborov, List<Student>> studentiPodlaOdboru = new HashMap<>();
-
-	    for (Student student : studentiMap.values()) {
-	        typyOdborov odbor = student.getOdbor();
-	        studentiPodlaOdboru.computeIfAbsent(odbor, k -> new ArrayList<>()).add(student);
-	    }
-
-
-	    for (List<Student> studenti : studentiPodlaOdboru.values()) {
-	        studenti.sort(Comparator.comparing(Student::getPriezvisko));
-	    }
-
-	    return studentiPodlaOdboru;
-	}
-		
-	
-	public static void vypisZoradenychStudentov () {
-		Map <typyOdborov, List<Student>> studentiPodlaOdboru = getZoradenychStudentovPodlaOdboru();
-		
-		for (typyOdborov odbor : typyOdborov.values()) {
-			List<Student> studenti = studentiPodlaOdboru.get(odbor);
-			
-			System.out.println("\n/---------------------------------------------------------------------\\");
-			System.out.println("\033[1;35m" + "Odbor: "  + odbor + "\033[0m");
-			for (Student student : studenti) {
-				String rokNarodenia = String.valueOf(student.getDatumNarodenia().getYear());
-				
-				System.out.print("\033[1;32m" + "ID: " + "\033[0m" + student.getID());
-				System.out.print("\t\033[1;32m" + "rok narodenia: " + "\033[0m" + rokNarodenia);
-				System.out.println("\t\033[1;32m" + "Meno a priezvisko: " + "\033[0m" + student.getMeno() + " " + student.getPriezvisko());
-				
-	
-				
-				}
-			System.out.println("\033[0;1m" + "\\---------------------------------------------------------------------/" + "\033[0m");
-				
-			}
-		}
-		
-	
-
-	
-	
-	
-	
-	
-	public static boolean pridatStudenta(int id, String meno, String priezvisko, LocalDate datum, String odbor) {
-		Student student;	
-		if (odbor.equalsIgnoreCase(typyOdborov.IBE.toString()) ) {
-				student = new BPC_IBE(id, meno, priezvisko, datum, typyOdborov.IBE);
-			}
-		else if (odbor.equalsIgnoreCase(typyOdborov.TLI.toString())) {
-			student = new BPC_TLI(id, meno, priezvisko, datum, typyOdborov.TLI);
-		}
-		else return false;
-		studentiMap.put(id, student);
-		return true;
-	}
-
-	public static Student  najstStudenta(int id) {
-		return studentiMap.get(id); 
-	
-		
-	}
-	
-	
-	public static boolean vymazatStudenta(int id) {
-		if (studentiMap.get(id) == null) {
-			return false;
-		}
-		studentiMap.remove(id);
-		return true;
-	}
-	
-	
-
-	public static HashMap<Integer, Student> getStudentiMap() {
-		return studentiMap;
-	}
-	
-	public static void addToStudentiMap(int id, Student student) {
-		studentiMap.put(id, student);
 	}
 	
 	
