@@ -1,4 +1,5 @@
 .DS_Store
+.gitignore.txt
 
 # Eclipse specific files
 .classpath
