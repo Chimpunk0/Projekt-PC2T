@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Set;
 
 import projekt_BPC_pC2T.MySQL.DBManagement;
 import projekt_BPC_pC2T.MySQL.InsertQueries;
@@ -136,9 +136,20 @@ public class Txtsubor {
 	                student.pridatZnamku(znamka);
 	            }
 			  
+			  Set<Integer>kluce = DBManagement.studentiMap.keySet();
+			  for (int kluc:kluce) {
+				  if (kluc == id) {
+					  System.out.println("Student uz je v databaze");
+					  vlozitDoDatabazy = false;
+				  }
+			  }
+			  
 			  if (vlozitDoDatabazy == true) {
+				 
+				  	InsertQueries.insertStudent(id, meno, priezvisko, datumNarodenia, odbor.toString());
 					StudentManagement.addToStudentiMap(id, student);
-					InsertQueries.insertStudent(id, meno, priezvisko, datumNarodenia, odbor.toString());
+					
+					
 					for (int znamka : znamky){
 						InsertQueries.insertZnamka(id, znamka, odbor.toString());
 					}

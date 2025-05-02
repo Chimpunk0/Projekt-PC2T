@@ -69,7 +69,7 @@ public class Main {
 					}
 					
 					skener.nextLine();
-					System.out.print("zadajte datum narodenie studenta (DD.MM.RRRR): ");
+					System.out.print("zadajte datum narodenie studenta: ");
 					LocalDate datum = SpracovanieVstupov.lenLocalDate(skener);
 					System.out.print("zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
 					typyOdborov odbor = SpracovanieVstupov.lenOdbor(skener);

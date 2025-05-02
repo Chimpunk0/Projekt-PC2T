@@ -22,7 +22,7 @@ public class InsertQueries {
 	        pstmt.setDate(4, java.sql.Date.valueOf(dátum_narodenia));
 	        pstmt.setString(5, odbor);
 	        pstmt.executeUpdate();
-	        System.out.println("data vlozene!");
+	        System.out.println("data vlozene do SQL!");
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }

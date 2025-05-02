@@ -1,0 +1,6 @@
+ID: 10
+Meno: Robko
+Priezvisko: Mihech
+Datum narodenia: 1998-10-08
+Odbor: TLI
+Znamky: -

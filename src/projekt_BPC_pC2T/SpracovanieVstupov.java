@@ -48,13 +48,17 @@ public class SpracovanieVstupov {
 				String vstup = skener.nextLine().trim();
 				LocalDate datum = null;
 			try {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.M.yyyy");
 				datum = LocalDate.parse(vstup, formatter);
+				LocalDate dnes = LocalDate.now();
+				if (datum.isAfter(dnes)) {
+					System.out.print("Datum narodenia nemoze byt v buducnosti! (DD.M.RRRR): ");
+					continue;
+				}
 				return datum;
 			}
 			catch(DateTimeParseException e) {
-				System.out.println(e.toString());
-				System.out.println("Neplatny datum! Zadajte v tvare DD.MM.RRRR: ");
+				System.out.println("Neplatny datum! Zadajte v tvare DD.M.RRRR: ");
 				
 			}	
 		}
