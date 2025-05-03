@@ -20,9 +20,9 @@ public class DeleteQueries {
             
             
             if (ovplyvneneRiadky > 0) {
-                System.out.println("Študent s ID " + id + " bol vymazaný z SQL.");
+                System.out.println("Student s ID " + id + " bol vymazany z SQL.");
             } else {
-                System.out.println("Študent s ID " + id + " v SQL neexistuje.");
+                System.out.println("Student s ID " + id + " v SQL neexistuje.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,10 +39,10 @@ public class DeleteQueries {
     		int ovplyvneneRiadky = pstmt.executeUpdate();
     		
     		if (ovplyvneneRiadky > 0) {
-    			System.out.println("znamky boli vymazane.");
+    			System.out.println("Znamky boli vymazane.");
     		} 
     		else {
-    			System.out.println("znamky studenta sa nenasli.");
+    			System.out.println("Znamky studenta sa nenasli.");
     		}
     		
     	}

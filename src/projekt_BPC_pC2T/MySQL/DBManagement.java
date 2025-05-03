@@ -11,8 +11,8 @@ import java.util.HashMap;
 
 public class DBManagement {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/studentbaza"; 
-    private static final String USER = "Simon";
-    private static final String PASS = "mamRadJablka";
+    private static final String USER = "root";
+    private static final String PASS = "Fjy35d4en2_SQL";
     
     public static MysqlDataSource dataSource; 
 

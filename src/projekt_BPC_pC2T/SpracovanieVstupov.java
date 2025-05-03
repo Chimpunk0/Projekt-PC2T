@@ -89,7 +89,7 @@ public class SpracovanieVstupov {
 		catch(Exception e)
 		{
 			System.out.println("Nastala vynimka typu "+e.toString());
-			System.out.println("zadajte prosim cele cislo: ");
+			System.out.println("Zadajte prosim cele cislo: ");
 			skener.nextLine();
 			cislo = lenCeleCisla(skener);
 		}

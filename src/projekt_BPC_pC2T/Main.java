@@ -54,7 +54,7 @@ public class Main {
 				System.out.println("------------------------------");
 				while(true) {
 					System.out.println("0 pre navrat do menu");
-					System.out.print("zadajte meno: ");
+					System.out.print("Zadajte meno: ");
 					String meno = skener.next();
 					
 					if (meno.equals("0")) {
@@ -69,9 +69,9 @@ public class Main {
 					}
 					
 					skener.nextLine();
-					System.out.print("zadajte datum narodenie studenta: ");
+					System.out.print("Zadajte datum narodenie studenta: ");
 					LocalDate datum = SpracovanieVstupov.lenLocalDate(skener);
-					System.out.print("zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
+					System.out.print("Zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
 					typyOdborov odbor = SpracovanieVstupov.lenOdbor(skener);
 					
 					
@@ -79,11 +79,11 @@ public class Main {
 					if (StudentManagement.pridatStudenta(id, meno, priezvisko, datum, odbor.toString()))
 					{
 						InsertQueries.insertStudent(id, meno, priezvisko, datum, odbor.toString());
-						System.out.println("Student s ID: " + id + " uspesne pridany");
+						System.out.println("Student s ID: " + id + " uspesne pridany.");
 						break;
 					}
 					else {
-						System.out.println("Studenta sa nepodarilo pridat");
+						System.out.println("Studenta sa nepodarilo pridat.");
 					}
 					
 					break;
@@ -113,14 +113,14 @@ public class Main {
 					continue;
 				}
 				
-				System.out.println("Známky študenta " + student.getMeno() + ": " + student.getZnamky());
+				System.out.println("Znamky studenta " + student.getMeno() + ": " + student.getZnamky());
 				System.out.print("Pridajte znamku: ");
 				
 				int znamka = SpracovanieVstupov.lenZnamka(skener);
 							
 				student.pridatZnamku(znamka);
 				InsertQueries.insertZnamka(id, znamka, student.getOdbor().toString());
-				System.out.println("Známky študenta " + student.getMeno() + ": " + student.getZnamky());	
+				System.out.println("Znamky studenta " + student.getMeno() + ": " + student.getZnamky());	
 				break;
 						
 				}
@@ -132,7 +132,7 @@ public class Main {
 				System.out.println("------------------------------");
 				while (true) {
 					
-					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					System.out.println("Zadajte ID studenta (0 pre navrat do menu): ");
 					int idVyhodeneho = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if (idVyhodeneho == 0) {
@@ -147,14 +147,14 @@ public class Main {
 					
 					Student prepusteny = StudentManagement.najstStudenta(idVyhodeneho);
 					if (prepusteny == null){
-						System.out.println("Student nebol najdeny");
+						System.out.println("Student nebol najdeny.");
 						continue;
 						}
 						
 
 						StudentManagement.vymazatStudenta(idVyhodeneho);
 						DeleteQueries.deleteStudent(idVyhodeneho);
-						System.out.println("Student bol vymazany");
+						System.out.println("Student bol vymazany.");
 						break;
 					}
 				skener.nextLine();
@@ -165,7 +165,7 @@ public class Main {
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Vyhladanie studenta" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				while(true) {
-					System.out.print("zadajte ID studenta (0 pre navrat do menu): ");
+					System.out.print("Zadajte ID studenta (0 pre navrat do menu): ");
 					int hladaneId = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if(hladaneId == 0) {
@@ -179,7 +179,7 @@ public class Main {
 					
 					Student hladanyStudent = StudentManagement.najstStudenta(hladaneId);
 					if (hladanyStudent == null) {
-						System.out.println("Student nebol najdeny");
+						System.out.println("Student nebol najdeny.");
 						continue;
 					}
 						
@@ -203,7 +203,7 @@ public class Main {
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Schopnost studenta" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				while(true) {
-					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					System.out.println("Zadajte ID studenta (0 pre navrat do menu): ");
 					int idSchopnost = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if (idSchopnost == 0) {
@@ -217,7 +217,7 @@ public class Main {
 					
 					Student hladanyStudent = StudentManagement.najstStudenta(idSchopnost);
 					if (hladanyStudent == null) {
-						System.out.println("Student nebol najdeny");
+						System.out.println("Student nebol najdeny.");
 						continue;
 					}
 						
@@ -266,7 +266,9 @@ public class Main {
 					}
 					
 					float priemer = SelectQueries.celkovyPriemer(hladanyOdbor.toString());
-					System.out.println(priemer);
+					System.out.println("/------------------------------------------------------------\\");
+					System.out.println("Celkovy priemer znamok v odbore " + hladanyOdbor + ": " + priemer);
+					System.out.println("\\------------------------------------------------------------/");
 					skener.nextLine();
 					break;
 					
@@ -286,7 +288,9 @@ public class Main {
 					}
 					
 					int pocetStudentov = SelectQueries.pocetStudentov(hladanyOdbor.toString());
+					System.out.println("/------------------------------------------------------------\\");
 					System.out.println("Pocet studentov v odbore " + hladanyOdbor + ": " + pocetStudentov);
+					System.out.println("\\------------------------------------------------------------/");
 					skener.nextLine();
 					
 					break;
@@ -297,7 +301,7 @@ public class Main {
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Ulozenie do suboru" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				while(true) {
-					System.out.println("zadajte ID studenta (0 pre navrat do menu): ");
+					System.out.println("Zadajte ID studenta (0 pre navrat do menu): ");
 					int idUkladanie = SpracovanieVstupov.lenCeleCisla(skener);
 					
 					if (idUkladanie == 0) {
@@ -329,14 +333,14 @@ public class Main {
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Nacitanie zo suboru" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
 				while(true) {
-					System.out.print("zadajte nazov suboru alebo jeho cestu (0 pre navrat do menu): ");
+					System.out.print("Zadajte nazov suboru alebo jeho cestu (0 pre navrat do menu): ");
 					String filename = skener.next();
 					
 					if (filename.equals("0")) {
 						break;
 					}
 					
-					System.out.print("Chcete ulozit studenta od databazy? (y/n): ");
+					System.out.print("Chcete ulozit studenta do databazy? (y/n): ");
 					vlozitDoDatabazy = SpracovanieVstupov.ulozZoSuboru(skener);
 					
 					
