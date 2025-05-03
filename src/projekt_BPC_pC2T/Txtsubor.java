@@ -139,7 +139,7 @@ public class Txtsubor {
 			  Set<Integer>kluce = DBManagement.studentiMap.keySet();
 			  for (int kluc:kluce) {
 				  if (kluc == id) {
-					  System.out.println("Student uz je v databaze");
+					  System.out.println("Student s id " + student.getID() + " uz je v databaze");
 					  vlozitDoDatabazy = false;
 				  }
 			  }

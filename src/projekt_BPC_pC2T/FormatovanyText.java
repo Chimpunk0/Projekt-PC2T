@@ -5,6 +5,8 @@ public enum FormatovanyText {
 	
 	RRESET("\033[0m"),
 	
+	BOLD("\033[0;1m"),
+	
 	BLACK_BOLD("\033[1;30m"),  
     RED_BOLD("\033[1;31m"),     
     GREEN_BOLD("\033[1;32m"),   

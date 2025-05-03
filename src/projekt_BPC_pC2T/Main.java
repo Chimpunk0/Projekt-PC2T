@@ -52,6 +52,8 @@ public class Main {
 				
 				System.out.println(FormatovanyText.MAGENTA_BOLD + "Pridanie studenta" + FormatovanyText.RRESET);
 				System.out.println("------------------------------");
+				DBManagement.inicializaciaMaxId();
+				posledneId = DBManagement.getAktualneMaxId();
 				while(true) {
 					System.out.println("0 pre navrat do menu");
 					System.out.print("Zadajte meno: ");
@@ -73,7 +75,10 @@ public class Main {
 					LocalDate datum = SpracovanieVstupov.lenLocalDate(skener);
 					System.out.print("Zadajte odbor, do ktoreho chcete studenta priradit (TLI/IBE): ");
 					typyOdborov odbor = SpracovanieVstupov.lenOdbor(skener);
-					
+
+					if (odbor == null) {
+						break;
+					}
 					
 					int id = ++posledneId;
 					if (StudentManagement.pridatStudenta(id, meno, priezvisko, datum, odbor.toString()))

@@ -68,7 +68,7 @@ public class StudentManagement {
 	for (typyOdborov odbor : typyOdborov.values()) {
 		List<Student> studenti = studentiPodlaOdboru.get(odbor);
 		
-		System.out.println("\n/---------------------------------------------------------------------\\");
+		System.out.println(FormatovanyText.BOLD + "\n/---------------------------------------------------------------------\\" + FormatovanyText.RRESET);
 		System.out.println("\033[1;35m" + "Odbor: "  + odbor + "\033[0m");
 		for (Student student : studenti) {
 			String rokNarodenia = String.valueOf(student.getDatumNarodenia().getYear());
@@ -80,7 +80,7 @@ public class StudentManagement {
 	
 			
 			}
-		System.out.println("\033[0;1m" + "\\---------------------------------------------------------------------/" + "\033[0m");
+		System.out.println(FormatovanyText.BOLD + "\\---------------------------------------------------------------------/" + FormatovanyText.RRESET);
 			
 		}
 	}
